@@ -1001,6 +1001,7 @@
           <div style="font-size:0.75rem;color:var(--foam);opacity:0.5;margin-top:8px">Morning · Afternoon · Evening</div>
         </div>
         <div id="notif-status" style="font-size:0.8rem;margin-top:10px;color:var(--mint);display:none"></div>
+        <div style="font-size:0.75rem;color:var(--foam);opacity:0.45;margin-top:10px;line-height:1.4">⚠️ Notifications require the browser/tab to be open. For phone alerts, add this site to your Home Screen (Share → Add to Home Screen on iOS).</div>
       </div>
     </div>
 
@@ -1054,6 +1055,34 @@ const AFFIRMATIONS = [
   { emoji: '🦈', text: "Shark mode: ACTIVATED!", sub: "Always moving, always hydrated." },
   { emoji: '🍀', text: "Lucky to have you hydrating!", sub: "Today just got a whole lot better." },
   { emoji: '🚀', text: "To the moon and hydrated!", sub: "Your body thanks you for fueling up." },
+  { emoji: '🌈', text: "Sip sip hooray!", sub: "Every drop counts toward greatness." },
+  { emoji: '🦁', text: "Lion energy. Hydrated edition.", sub: "The jungle bows to your discipline." },
+  { emoji: '🔥', text: "On fire AND hydrated?!", sub: "That's the dream. That's YOU." },
+  { emoji: '🧊', text: "Cool, calm, and hydrated.", sub: "Unshakeable. Unstoppable. Wet." },
+  { emoji: '🌺', text: "Blooming with every sip!", sub: "Flowers wish they drank like you." },
+  { emoji: '🐬', text: "Dolphin vibes all day!", sub: "Smart, sleek, and soaking it in." },
+  { emoji: '💎', text: "Diamond-level hydration!", sub: "Rare. Precious. Absolutely iconic." },
+  { emoji: '🎸', text: "Rocking that water intake!", sub: "Your cells are headbanging with joy." },
+  { emoji: '🧠', text: "Big brain energy activated!", sub: "75% water. You're basically genius juice." },
+  { emoji: '🏄', text: "Riding the hydration wave!", sub: "Hang loose and stay watered." },
+  { emoji: '🦋', text: "Transforming one sip at a time!", sub: "Glow up in progress. Drink up." },
+  { emoji: '🌙', text: "Even the moon pulls tides for you.", sub: "Water bends to your will." },
+  { emoji: '🍉', text: "92% water. Just like you!", sub: "You and watermelon are basically twins." },
+  { emoji: '🐉', text: "Dragon energy, water edition.", sub: "Mythically hydrated. Legendary status." },
+  { emoji: '🎪', text: "The main event: YOU drinking water!", sub: "Standing ovation from your kidneys." },
+  { emoji: '🌍', text: "You're 70% water now.", sub: "Congratulations, you're basically Earth." },
+  { emoji: '🦅', text: "Soaring on hydration wings!", sub: "Eagles don't skip water. Neither do you." },
+  { emoji: '🎭', text: "Plot twist: you're THRIVING!", sub: "The hero always stays hydrated." },
+  { emoji: '🍋', text: "When life gives you water, drink it!", sub: "Zesty, refreshed, unstoppable." },
+  { emoji: '🌊', text: "You ARE the ocean.", sub: "Deep, powerful, and wonderfully wet." },
+  { emoji: '🏋️', text: "Hydration gains unlocked!", sub: "Water is the original performance enhancer." },
+  { emoji: '🧲', text: "Attracting good vibes and great health!", sub: "Hydration magnetism is real." },
+  { emoji: '🪐', text: "Planetary-level hydration!", sub: "Saturn has rings. You have water goals." },
+  { emoji: '🎨', text: "Painting your health masterpiece!", sub: "Every sip is a brushstroke of genius." },
+  { emoji: '🦄', text: "Mythically hydrated!", sub: "Unicorns drink water. Now you know." },
+  { emoji: '🌤️', text: "Every cloud has a silver lining.", sub: "Yours is filled with water. Drink up." },
+  { emoji: '🧬', text: "DNA-level hydration!", sub: "Your cells just sent a thank-you note." },
+  { emoji: '🎯', text: "Locked in. Locked on. Hydrated.", sub: "Nothing can stop you now." },
 ];
 
 function getStorage() {
@@ -1165,9 +1194,56 @@ function joinUser() {
   const goal = goalBtn ? parseInt(goalBtn.dataset.val) : 6;
   const inviteCode = document.getElementById('screen-join').dataset.inviteCode;
   APP = initUser(name, inviteCode, goal);
-  // Add the inviter as a friend
+  // Add the inviter as a friend immediately on joiner's side
   addFriendFromCode(inviteCode, true);
+  setStorage(APP);
+  // Show return link so inviter can add joiner back
   showMain();
+  // Switch to friends tab and show the return link
+  setTimeout(() => {
+    showReturnLinkBanner(inviteCode);
+  }, 500);
+}
+
+function showReturnLinkBanner(inviterCode) {
+  // Generate a link the inviter clicks to add the new joiner
+  const myCode = getUserCode(APP);
+  const base = location.origin + location.pathname;
+  const returnLink = `${base}?invite=${myCode}`;
+
+  const inviterInfo = parseCode(inviterCode);
+  const inviterName = inviterInfo ? inviterInfo.name : 'your friend';
+
+  // Show a prominent banner
+  let banner = document.getElementById('return-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'return-banner';
+    banner.style.cssText = `
+      background: linear-gradient(135deg, rgba(0,229,195,0.15), rgba(56,182,255,0.1));
+      border: 1px solid rgba(0,229,195,0.4);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+    `;
+    const friendsCard = document.querySelector('#tab-friends .card');
+    if (friendsCard) friendsCard.parentNode.insertBefore(banner, friendsCard);
+  }
+  banner.innerHTML = `
+    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--mint);font-weight:700;margin-bottom:8px">👋 One more step!</div>
+    <div style="font-size:0.9rem;color:var(--foam);margin-bottom:12px">Send <strong>${inviterName}</strong> this link so they can add you to their crew too:</div>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(56,182,255,0.2);border-radius:10px;padding:10px;font-size:0.7rem;font-family:monospace;color:var(--foam);word-break:break-all">${returnLink}</div>
+      <button onclick="navigator.clipboard.writeText('${returnLink}').then(()=>{this.textContent='✅';setTimeout(()=>this.textContent='Copy',2000)})" style="background:rgba(0,229,195,0.2);border:1px solid rgba(0,229,195,0.4);border-radius:10px;color:var(--mint);font-weight:700;padding:10px 12px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap">Copy</button>
+    </div>
+    <div style="font-size:0.75rem;color:var(--foam);opacity:0.5;margin-top:8px">When they open it, you'll both appear in each other's crew ✅</div>
+  `;
+
+  // Switch to friends tab
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.getElementById('tab-friends').style.display = 'block';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn')[2].classList.add('active');
 }
 
 function addFriendFromCode(code, skipSave) {
@@ -1423,7 +1499,7 @@ function renderFriends() {
       <div class="friend-avatar">${emojis[i] || '💧'}</div>
       <div style="flex:1">
         <div class="friend-name">${f.name}</div>
-        <div class="friend-streak">🔥 ${f.streak} day streak</div>
+        <div class="friend-streak">🔥 ${f.streak} day${f.streak !== 1 ? 's' : ''}</div>
       </div>
       <div style="text-align:right">
         <div class="friend-pts">⭐ ${f.points}</div>
@@ -1545,6 +1621,52 @@ function shareInvite() {
 
 // ─── Notifications ────────────────────────────────────────────────────────────
 
+const SW_CODE = `
+self.addEventListener('message', (e) => {
+  if (e.data.type === 'SCHEDULE') {
+    const { times, name, goal, drinks } = e.data;
+    const msgs = [
+      { title: '💧 Morning Hydration!', body: 'Start your day with a glass of water 🌅' },
+      { title: '💧 Afternoon Check-in!', body: "Don't forget your midday water 🌤️" },
+      { title: '💧 Evening Reminder!', body: 'Almost done for the day! Log your evening drink 🌙' },
+    ];
+    if (self._timers) self._timers.forEach(t => clearTimeout(t));
+    self._timers = [];
+    times.forEach((timeStr, i) => {
+      if (!timeStr) return;
+      const [h, m] = timeStr.split(':').map(Number);
+      const now = new Date();
+      const target = new Date();
+      target.setHours(h, m, 0, 0);
+      if (target <= now) target.setDate(target.getDate() + 1);
+      const delay = target - now;
+      const t = setTimeout(() => {
+        self.registration.showNotification(msgs[i].title, {
+          body: name + '! ' + msgs[i].body,
+          icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>',
+        });
+      }, delay);
+      self._timers.push(t);
+    });
+  }
+});
+`;
+
+let swReg = null;
+
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return null;
+  try {
+    const blob = new Blob([SW_CODE], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    swReg = await navigator.serviceWorker.register(swUrl, { scope: '/' });
+    return swReg;
+  } catch(e) {
+    // Blob SW not supported (e.g. Firefox) — fall back to in-page timers
+    return null;
+  }
+}
+
 function initNotifUI() {
   if (!APP) return;
   const notifOn = APP.notificationsEnabled || false;
@@ -1553,12 +1675,19 @@ function initNotifUI() {
     toggle.checked = notifOn;
     document.getElementById('notif-time-section').style.display = notifOn ? 'block' : 'none';
   }
-  // Restore saved times
   if (APP.notifTimes) {
     const times = APP.notifTimes;
     if (times[0]) document.getElementById('notif-time-1').value = times[0];
     if (times[1]) document.getElementById('notif-time-2').value = times[1];
     if (times[2]) document.getElementById('notif-time-3').value = times[2];
+  }
+  // Show current permission state
+  if ('Notification' in window && Notification.permission === 'denied') {
+    const statusEl = document.getElementById('notif-status');
+    statusEl.style.display = 'block';
+    statusEl.style.color = 'var(--coral)';
+    statusEl.textContent = '❌ Notifications blocked in browser settings. Go to site settings to allow them.';
+    if (toggle) toggle.checked = false;
   }
 }
 
@@ -1575,22 +1704,28 @@ async function toggleNotifications(checkbox) {
   }
 
   if (checkbox.checked) {
-    const permission = await Notification.requestPermission();
+    let permission = Notification.permission;
+    if (permission === 'default') {
+      permission = await Notification.requestPermission();
+    }
     if (permission === 'granted') {
       APP.notificationsEnabled = true;
       timeSection.style.display = 'block';
       statusEl.style.display = 'block';
       statusEl.style.color = 'var(--mint)';
-      statusEl.textContent = '✅ Reminders enabled! You\'ll be nudged at your chosen times.';
+      statusEl.textContent = '✅ Reminders on! Keep this tab open for best results.';
       saveNotifTimes();
-      scheduleNotifications();
-    } else {
+      // Send a test notification
+      setTimeout(() => {
+        new Notification('💧 HydroPals', { body: `Hey ${APP.name}! Reminders are now active 🎉` });
+      }, 500);
+    } else if (permission === 'denied') {
       checkbox.checked = false;
       APP.notificationsEnabled = false;
       timeSection.style.display = 'none';
       statusEl.style.display = 'block';
       statusEl.style.color = 'var(--coral)';
-      statusEl.textContent = '❌ Permission denied. Enable notifications in your browser settings.';
+      statusEl.textContent = '❌ Blocked! Click the 🔒 lock icon in your browser address bar → Site settings → Allow notifications.';
     }
   } else {
     APP.notificationsEnabled = false;
@@ -1613,16 +1748,17 @@ function saveNotifTimes() {
 
 function scheduleNotifications() {
   if (!APP || !APP.notificationsEnabled || Notification.permission !== 'granted') return;
-  const times = APP.notifTimes || ['09:00','14:00','19:00'];
-  const messages = [
-    { title: '💧 Morning Hydration!', body: `Good morning ${APP.name}! Start your day with a glass of water 🌅` },
-    { title: '💧 Afternoon Check-in!', body: `Hey ${APP.name}! Don't forget your midday water 🌤️` },
-    { title: '💧 Evening Reminder!', body: `Almost done for the day ${APP.name}! Log your evening drink 🌙` },
-  ];
+  const times = APP.notifTimes || ['09:00', '14:00', '19:00'];
 
-  // Clear existing scheduled timers
+  // Clear old timers
   if (window._notifTimers) window._notifTimers.forEach(t => clearTimeout(t));
   window._notifTimers = [];
+
+  const msgs = [
+    { title: '💧 Morning Hydration!', body: `Good morning ${APP.name}! Start your day with water 🌅` },
+    { title: '💧 Afternoon Check-in!', body: `Hey ${APP.name}! Midday water time 🌤️` },
+    { title: '💧 Evening Reminder!', body: `Almost there ${APP.name}! Log your evening drink 🌙` },
+  ];
 
   times.forEach((timeStr, i) => {
     if (!timeStr) return;
@@ -1630,20 +1766,24 @@ function scheduleNotifications() {
     const now = new Date();
     const target = new Date();
     target.setHours(h, m, 0, 0);
-    if (target <= now) target.setDate(target.getDate() + 1); // schedule for tomorrow if past
+    if (target <= now) target.setDate(target.getDate() + 1);
     const delay = target - now;
+
     const timer = setTimeout(() => {
-      const todayCount = APP.drinks[today()] || 0;
-      const goal = APP.dailyGoal || 6;
+      const todayCount = APP ? (APP.drinks[today()] || 0) : 0;
+      const goal = APP ? (APP.dailyGoal || 6) : 6;
       if (todayCount < goal) {
-        new Notification(messages[i].title, {
-          body: messages[i].body + `\n${todayCount}/${goal} glasses so far.`,
-          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💧</text></svg>',
-          badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💧</text></svg>',
-        });
+        try {
+          new Notification(msgs[i].title, {
+            body: msgs[i].body + ` (${todayCount}/${goal} glasses so far)`,
+            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💧</text></svg>',
+          });
+        } catch(e) {}
       }
-      scheduleNotifications(); // reschedule for next day
+      // Reschedule for next day
+      scheduleNotifications();
     }, delay);
+
     window._notifTimers.push(timer);
   });
 }
