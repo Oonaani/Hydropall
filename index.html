@@ -28,780 +28,233 @@
     overflow-x: hidden;
   }
 
-  /* Animated background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 50%, rgba(26, 111, 173, 0.3) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(0, 229, 195, 0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 80%, rgba(56, 182, 255, 0.1) 0%, transparent 50%);
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(26,111,173,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(0,229,195,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, rgba(56,182,255,0.1) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
 
-  .bubbles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
+  .bubbles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
   .bubble {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(56, 182, 255, 0.08);
-    border: 1px solid rgba(56, 182, 255, 0.15);
-    animation: floatUp linear infinite;
-    bottom: -100px;
+    position: absolute; border-radius: 50%;
+    background: rgba(56,182,255,0.08);
+    border: 1px solid rgba(56,182,255,0.15);
+    animation: floatUp linear infinite; bottom: -100px;
   }
 
   @keyframes floatUp {
     0% { transform: translateY(0) scale(1); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.5; }
+    10% { opacity: 1; } 90% { opacity: 0.5; }
     100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
   }
 
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px 16px 60px;
-  }
+  .container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 20px 16px 80px; }
 
-  /* Header */
-  header {
-    text-align: center;
-    padding: 30px 0 20px;
-  }
+  header { text-align: center; padding: 30px 0 20px; }
 
   .logo {
-    font-family: 'Righteous', cursive;
-    font-size: 2.8rem;
+    font-family: 'Righteous', cursive; font-size: 2.8rem;
     background: linear-gradient(135deg, var(--sky), var(--mint));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     letter-spacing: 2px;
   }
 
-  .tagline {
-    color: var(--foam);
-    font-size: 0.85rem;
-    opacity: 0.7;
-    margin-top: 4px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
+  .tagline { color: var(--foam); font-size: 0.85rem; opacity: 0.7; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
 
-  /* Screen management */
   .screen { display: none; }
   .screen.active { display: block; }
 
-  /* Name setup */
   .setup-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(56, 182, 255, 0.2);
-    border-radius: 24px;
-    padding: 32px 24px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    margin-top: 20px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(56,182,255,0.2);
+    border-radius: 24px; padding: 32px 24px; text-align: center;
+    backdrop-filter: blur(10px); margin-top: 20px;
   }
 
-  .setup-card h2 {
-    font-family: 'Righteous', cursive;
-    font-size: 1.6rem;
-    color: var(--sky);
-    margin-bottom: 8px;
-  }
-
+  .setup-card h2 { font-family: 'Righteous', cursive; font-size: 1.6rem; color: var(--sky); margin-bottom: 8px; }
   .setup-card p { color: var(--foam); opacity: 0.8; margin-bottom: 24px; }
 
   input[type="text"] {
-    width: 100%;
-    background: rgba(255,255,255,0.08);
-    border: 2px solid rgba(56, 182, 255, 0.3);
-    border-radius: 14px;
-    padding: 14px 18px;
-    font-size: 1.1rem;
-    font-family: 'Nunito', sans-serif;
-    color: var(--white);
-    outline: none;
-    transition: border-color 0.3s;
-    margin-bottom: 16px;
-  }
-
-  input[type="text"]::placeholder { color: rgba(168, 230, 255, 0.4); }
-  input[type="text"]:focus { border-color: var(--sky); }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 28px;
-    border-radius: 50px;
-    border: none;
-    font-family: 'Nunito', sans-serif;
-    font-size: 1rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-  }
-
-  .btn:active { transform: scale(0.96); }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--sky), var(--mint));
-    color: var(--deep);
-    width: 100%;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-  }
-
-  .btn-primary:hover { box-shadow: 0 8px 30px rgba(56, 182, 255, 0.4); transform: translateY(-1px); }
-
-  .btn-outline {
-    background: transparent;
-    border: 2px solid rgba(56, 182, 255, 0.4);
-    color: var(--sky);
-    font-size: 0.9rem;
-    padding: 10px 20px;
-  }
-
-  .btn-outline:hover { border-color: var(--sky); background: rgba(56, 182, 255, 0.1); }
-
-  .btn-ghost {
-    background: rgba(255,255,255,0.06);
-    color: var(--foam);
-    font-size: 0.85rem;
-    padding: 10px 18px;
-  }
-
-  /* Goal picker */
-  .goal-picker {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
-
-  .goal-opt {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 2px solid rgba(56,182,255,0.3);
-    background: rgba(255,255,255,0.05);
-    color: var(--foam);
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .goal-opt:hover { border-color: var(--sky); color: var(--sky); }
-
-  .goal-opt.active {
-    background: linear-gradient(135deg, var(--sky), var(--mint));
-    border-color: transparent;
-    color: var(--deep);
-    box-shadow: 0 4px 14px rgba(56,182,255,0.35);
-  }
-
-  /* Progress ring */
-  .progress-ring-wrap {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .progress-ring-svg {
-    position: absolute;
-    top: 0; left: 0;
-    transform: rotate(-90deg);
-  }
-
-  .progress-ring-track {
-    fill: none;
-    stroke: rgba(56,182,255,0.12);
-    stroke-width: 6;
-  }
-
-  .progress-ring-fill {
-    fill: none;
-    stroke: url(#ringGrad);
-    stroke-width: 6;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s ease;
-  }
-
-  .progress-ring-fill.goal-done {
-    stroke: url(#ringGradDone);
-  }
-
-  /* Goal change in settings */
-  .goal-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
-
-  .goal-label { font-size:0.85rem; color: var(--foam); opacity:0.8; }
-  .goal-value { font-size:1.1rem; font-weight:800; color:var(--sky); }
-
-  /* Month grid */
-  .month-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-  }
-
-  .month-day {
-    aspect-ratio: 1;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.6rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(56,182,255,0.08);
-    transition: all 0.3s;
-    position: relative;
-  }
-
-  .month-day.filled {
-    background: linear-gradient(135deg, var(--wave), var(--sky));
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 2px 8px rgba(56,182,255,0.25);
-  }
-
-  .month-day.today {
-    border-color: var(--sky);
-    color: var(--sky);
-  }
-
-  .month-day.today.filled {
-    background: linear-gradient(135deg, var(--mint), #38b6ff);
-    border-color: transparent;
-    color: var(--deep);
-    box-shadow: 0 2px 12px rgba(0,229,195,0.4);
-  }
-
-  .month-day.future {
-    opacity: 0.3;
-  }
-
-  .month-day-header {
-    font-size: 0.55rem;
-    font-weight: 800;
-    color: rgba(168,230,255,0.4);
-    text-align: center;
-    padding-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  /* Notification toggle */
-  .notif-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-
-  .toggle {
-    position: relative;
-    width: 48px;
-    height: 26px;
-    flex-shrink: 0;
-  }
-
-  .toggle input { opacity: 0; width: 0; height: 0; }
-
-  .toggle-slider {
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: 1px solid rgba(56,182,255,0.2);
-  }
-
-  .toggle-slider::before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    left: 2px;
-    top: 2px;
-    background: white;
-    border-radius: 50%;
-    transition: 0.3s;
-  }
-
-  .toggle input:checked + .toggle-slider {
-    background: linear-gradient(135deg, var(--sky), var(--mint));
-    border-color: transparent;
-  }
-
-  .toggle input:checked + .toggle-slider::before {
-    transform: translateX(22px);
-  }
-
-  .time-picker-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-top: 12px;
+    width: 100%; background: rgba(255,255,255,0.08); border: 2px solid rgba(56,182,255,0.3);
+    border-radius: 14px; padding: 14px 18px; font-size: 1.1rem;
+    font-family: 'Nunito', sans-serif; color: var(--white); outline: none;
+    transition: border-color 0.3s; margin-bottom: 16px;
   }
 
   input[type="time"] {
-    background: rgba(255,255,255,0.08);
-    border: 2px solid rgba(56,182,255,0.3);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 1rem;
-    font-family: 'Nunito', sans-serif;
-    color: var(--white);
-    outline: none;
-    flex: 1;
-    transition: border-color 0.3s;
+    background: rgba(255,255,255,0.08); border: 2px solid rgba(56,182,255,0.3);
+    border-radius: 12px; padding: 10px 14px; font-size: 0.95rem;
+    font-family: 'Nunito', sans-serif; color: var(--white); outline: none;
+    transition: border-color 0.3s; flex: 1;
   }
 
-  input[type="time"]:focus { border-color: var(--sky); }
+  input[type="text"]::placeholder { color: rgba(168,230,255,0.4); }
+  input[type="text"]:focus, input[type="time"]:focus { border-color: var(--sky); }
   input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.5; }
 
-  /* Main dashboard */
-  .user-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 28px; border-radius: 50px; border: none;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    cursor: pointer; transition: all 0.2s;
   }
 
+  .btn:active { transform: scale(0.96); }
+  .btn-primary { background: linear-gradient(135deg, var(--sky), var(--mint)); color: var(--deep); width: 100%; font-size: 1.1rem; }
+  .btn-primary:hover { box-shadow: 0 8px 30px rgba(56,182,255,0.4); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+  .btn-outline { background: transparent; border: 2px solid rgba(56,182,255,0.4); color: var(--sky); font-size: 0.9rem; padding: 10px 20px; }
+  .btn-outline:hover { border-color: var(--sky); background: rgba(56,182,255,0.1); }
+
+  .goal-picker { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+  .goal-opt {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid rgba(56,182,255,0.3); background: rgba(255,255,255,0.05);
+    color: var(--foam); font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .goal-opt:hover { border-color: var(--sky); color: var(--sky); }
+  .goal-opt.active { background: linear-gradient(135deg, var(--sky), var(--mint)); border-color: transparent; color: var(--deep); box-shadow: 0 4px 14px rgba(56,182,255,0.35); }
+
+  .progress-ring-wrap { position: relative; width: 180px; height: 180px; display: inline-flex; align-items: center; justify-content: center; }
+  .progress-ring-svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .progress-ring-track { fill: none; stroke: rgba(56,182,255,0.12); stroke-width: 6; }
+  .progress-ring-fill { fill: none; stroke: url(#ringGrad); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+  .progress-ring-fill.goal-done { stroke: url(#ringGradDone); }
+
+  .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .month-day {
+    aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 700; color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(56,182,255,0.08); transition: all 0.3s;
+  }
+  .month-day.filled { background: linear-gradient(135deg, var(--wave), var(--sky)); color: white; border-color: transparent; box-shadow: 0 2px 8px rgba(56,182,255,0.25); }
+  .month-day.today { border-color: var(--sky); color: var(--sky); }
+  .month-day.today.filled { background: linear-gradient(135deg, var(--mint), #38b6ff); border-color: transparent; color: var(--deep); box-shadow: 0 2px 12px rgba(0,229,195,0.4); }
+  .month-day.future { opacity: 0.3; }
+  .month-day-header { font-size: 0.55rem; font-weight: 800; color: rgba(168,230,255,0.4); text-align: center; padding-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .user-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .user-greeting { font-size: 0.9rem; color: var(--foam); opacity: 0.7; }
   .user-name { font-size: 1.2rem; font-weight: 800; color: var(--white); }
+  .points-badge { background: linear-gradient(135deg, var(--sun), #ffb347); color: var(--deep); border-radius: 50px; padding: 6px 16px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 4px; }
 
-  .points-badge {
-    background: linear-gradient(135deg, var(--sun), #ffb347);
-    color: var(--deep);
-    border-radius: 50px;
-    padding: 6px 16px;
-    font-weight: 800;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  /* Big drink button */
-  .drink-section {
-    text-align: center;
-    margin: 10px 0 24px;
-  }
-
-  .drink-btn-wrap {
-    position: relative;
-    display: inline-block;
-  }
-
+  .drink-section { text-align: center; margin: 10px 0 24px; }
   .drink-btn {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    border: none;
+    width: 180px; height: 180px; border-radius: 50%; border: none;
     background: linear-gradient(145deg, var(--wave), var(--sky));
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 0 0 rgba(56, 182, 255, 0.4), 0 20px 60px rgba(26, 111, 173, 0.5);
-    position: relative;
-    overflow: hidden;
+    cursor: pointer; transition: all 0.3s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 0 rgba(56,182,255,0.4), 0 20px 60px rgba(26,111,173,0.5);
+    position: relative; overflow: hidden;
   }
-
   .drink-btn::before {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: -20px;
-    right: -20px;
-    height: 60px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%;
-    animation: waveAnim 2s ease-in-out infinite;
+    content: ''; position: absolute; bottom: -20px; left: -20px; right: -20px; height: 60px;
+    background: rgba(255,255,255,0.15); border-radius: 50%; animation: waveAnim 2s ease-in-out infinite;
   }
-
-  @keyframes waveAnim {
-    0%, 100% { transform: translateY(0) scaleX(1); }
-    50% { transform: translateY(-8px) scaleX(1.05); }
-  }
-
-  .drink-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 16px rgba(56, 182, 255, 0.12), 0 20px 60px rgba(26, 111, 173, 0.6);
-  }
-
+  @keyframes waveAnim { 0%,100%{transform:translateY(0) scaleX(1)}50%{transform:translateY(-8px) scaleX(1.05)} }
+  .drink-btn:hover { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(56,182,255,0.12), 0 20px 60px rgba(26,111,173,0.6); }
   .drink-btn:active { transform: scale(0.95); }
-
-  .drink-btn.checked-today {
-    background: linear-gradient(145deg, #1a7a5e, var(--mint));
-  }
-
+  .drink-btn.goal-met { background: linear-gradient(145deg, #1a7a5e, var(--mint)); }
   .drink-btn-icon { font-size: 3.5rem; line-height: 1; }
-  .drink-btn-label {
-    font-family: 'Righteous', cursive;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    margin-top: 6px;
-    color: rgba(255,255,255,0.9);
-  }
+  .drink-btn-label { font-family: 'Righteous', cursive; font-size: 0.85rem; letter-spacing: 1px; margin-top: 6px; color: rgba(255,255,255,0.9); }
+  .drink-status { margin-top: 14px; font-size: 0.95rem; color: var(--foam); opacity: 0.7; min-height: 24px; }
+  .goal-hint { margin-top: 6px; font-size: 0.8rem; color: var(--foam); opacity: 0.5; }
 
-  .drink-status {
-    margin-top: 14px;
-    font-size: 0.95rem;
-    color: var(--foam);
-    opacity: 0.7;
-    min-height: 24px;
-  }
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(56,182,255,0.15); border-radius: 20px; padding: 20px; margin-bottom: 16px; backdrop-filter: blur(10px); }
+  .card-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--sky); margin-bottom: 14px; font-weight: 700; }
 
-  /* Streak */
-  .streak-row {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 6px;
-  }
-
-  .streak-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    border: 2px solid rgba(56, 182, 255, 0.2);
-    color: rgba(255,255,255,0.3);
-    transition: all 0.3s;
-  }
-
-  .streak-dot.filled {
-    background: linear-gradient(135deg, var(--sky), var(--mint));
-    border-color: transparent;
-    color: var(--deep);
-    box-shadow: 0 4px 12px rgba(56, 182, 255, 0.35);
-  }
-
-  .streak-dot.today-dot {
-    border-color: var(--sky);
-    color: var(--sky);
-  }
-
-  /* Stats card */
-  .card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(56, 182, 255, 0.15);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 16px;
-    backdrop-filter: blur(10px);
-  }
-
-  .card-title {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--sky);
-    margin-bottom: 14px;
-    font-weight: 700;
-  }
-
-  /* Weekly chart */
-  .week-chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 80px;
-    justify-content: space-between;
-  }
-
-  .day-bar-wrap {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    height: 100%;
-    justify-content: flex-end;
-  }
-
-  .day-bar {
-    width: 100%;
-    border-radius: 6px 6px 0 0;
-    background: rgba(56, 182, 255, 0.15);
-    min-height: 4px;
-    transition: height 0.5s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .day-bar.has-data {
-    background: linear-gradient(to top, var(--wave), var(--sky));
-    box-shadow: 0 0 10px rgba(56, 182, 255, 0.3);
-  }
-
+  .week-chart { display: flex; align-items: flex-end; gap: 8px; height: 80px; justify-content: space-between; }
+  .day-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+  .day-bar { width: 100%; border-radius: 6px 6px 0 0; background: rgba(56,182,255,0.15); min-height: 4px; transition: height 0.5s ease; }
+  .day-bar.has-data { background: linear-gradient(to top, var(--wave), var(--sky)); box-shadow: 0 0 10px rgba(56,182,255,0.3); }
   .day-bar.today-bar { background: linear-gradient(to top, var(--mint), #7fffea); }
-
-  .day-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.4);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
+  .day-label { font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
   .day-label.today-label { color: var(--mint); }
 
-  /* Friends */
   .friends-list { display: flex; flex-direction: column; gap: 10px; }
-
-  .friend-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 14px;
-    padding: 12px 14px;
-    border: 1px solid rgba(56, 182, 255, 0.1);
-  }
-
-  .friend-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--ocean), var(--wave));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    border: 2px solid rgba(56,182,255,0.3);
-    flex-shrink: 0;
-  }
-
+  .friend-row { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.04); border-radius: 14px; padding: 12px 14px; border: 1px solid rgba(56,182,255,0.1); }
+  .friend-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--ocean), var(--wave)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 2px solid rgba(56,182,255,0.3); flex-shrink: 0; }
   .friend-name { font-weight: 700; font-size: 0.95rem; flex: 1; }
-  .friend-pts {
-    font-size: 0.8rem;
-    color: var(--sun);
-    font-weight: 700;
-  }
-  .friend-streak { font-size: 0.75rem; color: var(--foam); opacity: 0.6; }
-  .friend-checked { font-size: 1.1rem; }
+  .friend-pts { font-size: 0.8rem; color: var(--sun); font-weight: 700; }
+  .friend-streak-label { font-size: 0.75rem; color: var(--foam); opacity: 0.6; }
+  .empty-friends { text-align: center; padding: 20px; color: var(--foam); opacity: 0.5; font-size: 0.9rem; }
 
-  .empty-friends {
-    text-align: center;
-    padding: 20px;
-    color: var(--foam);
-    opacity: 0.5;
-    font-size: 0.9rem;
-  }
+  .invite-row { display: flex; gap: 8px; margin-top: 12px; }
+  .invite-link-box { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(56,182,255,0.2); border-radius: 12px; padding: 10px 14px; font-size: 0.78rem; color: var(--foam); word-break: break-all; font-family: monospace; user-select: all; }
+  .btn-copy { background: rgba(56,182,255,0.15); border: 1px solid rgba(56,182,255,0.3); border-radius: 12px; color: var(--sky); font-size: 0.85rem; font-weight: 700; padding: 10px 14px; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.2s; white-space: nowrap; }
+  .btn-copy:hover { background: rgba(56,182,255,0.25); }
 
-  /* Invite */
-  .invite-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
+  .goal-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .goal-label { font-size: 0.85rem; color: var(--foam); opacity: 0.8; }
+  .goal-value { font-size: 1.1rem; font-weight: 800; color: var(--sky); }
 
-  .invite-link-box {
-    flex: 1;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(56, 182, 255, 0.2);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 0.78rem;
-    color: var(--foam);
-    word-break: break-all;
-    font-family: monospace;
-    user-select: all;
-    cursor: text;
-  }
+  .notif-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .toggle { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 50px; cursor: pointer; transition: 0.3s; border: 1px solid rgba(56,182,255,0.2); }
+  .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 2px; top: 2px; background: white; border-radius: 50%; transition: 0.3s; }
+  .toggle input:checked + .toggle-slider { background: linear-gradient(135deg, var(--sky), var(--mint)); border-color: transparent; }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(22px); }
+  .time-picker-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
 
-  .btn-copy {
-    background: rgba(56, 182, 255, 0.15);
-    border: 1px solid rgba(56, 182, 255, 0.3);
-    border-radius: 12px;
-    color: var(--sky);
-    font-size: 0.85rem;
-    font-weight: 700;
-    padding: 10px 14px;
-    cursor: pointer;
-    font-family: 'Nunito', sans-serif;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-
-  .btn-copy:hover { background: rgba(56, 182, 255, 0.25); }
-  .btn-copy:active { transform: scale(0.95); }
-
-  /* Affirmation popup */
-  .affirmation-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 22, 40, 0.85);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    backdrop-filter: blur(4px);
-  }
-
-  .affirmation-overlay.show {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .affirmation-card {
-    background: linear-gradient(145deg, var(--ocean), #0a2440);
-    border: 1px solid rgba(56, 182, 255, 0.4);
-    border-radius: 28px;
-    padding: 40px 28px;
-    text-align: center;
-    max-width: 340px;
-    width: 100%;
-    transform: scale(0.8);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-  }
-
-  .affirmation-overlay.show .affirmation-card { transform: scale(1); }
-
-  .affirmation-emoji { font-size: 4rem; margin-bottom: 16px; display: block; animation: bounce 0.6s ease 0.3s both; }
-
-  @keyframes bounce {
-    0% { transform: scale(0); }
-    60% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  .affirmation-points {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--sun), #ffb347);
-    color: var(--deep);
-    border-radius: 50px;
-    padding: 4px 16px;
-    font-weight: 800;
-    font-size: 1rem;
-    margin-bottom: 16px;
-  }
-
-  .affirmation-text {
-    font-size: 1.3rem;
-    font-weight: 800;
-    line-height: 1.4;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-
-  .affirmation-sub {
-    font-size: 0.9rem;
-    color: var(--foam);
-    opacity: 0.7;
-    margin-bottom: 28px;
-  }
-
-  /* Nav */
-  .nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(10, 22, 40, 0.95);
-    border-top: 1px solid rgba(56, 182, 255, 0.15);
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0 16px;
-    z-index: 50;
-    backdrop-filter: blur(16px);
-  }
-
-  .nav-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: rgba(168, 230, 255, 0.4);
-    transition: color 0.2s;
-    font-family: 'Nunito', sans-serif;
-    padding: 4px 16px;
-  }
-
+  .nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,22,40,0.95); border-top: 1px solid rgba(56,182,255,0.15); display: flex; justify-content: space-around; padding: 10px 0 16px; z-index: 50; backdrop-filter: blur(16px); }
+  .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: rgba(168,230,255,0.4); transition: color 0.2s; font-family: 'Nunito', sans-serif; padding: 4px 16px; }
   .nav-btn.active { color: var(--sky); }
   .nav-btn-icon { font-size: 1.4rem; }
   .nav-btn-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
 
-  /* Sections within main screen */
   .section { margin-bottom: 20px; }
 
-  /* Confetti canvas */
-  #confetti-canvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 200;
-  }
+  .affirmation-overlay { position: fixed; inset: 0; background: rgba(10,22,40,0.85); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
+  .affirmation-overlay.show { opacity: 1; pointer-events: all; }
+  .affirmation-card { background: linear-gradient(145deg, var(--ocean), #0a2440); border: 1px solid rgba(56,182,255,0.4); border-radius: 28px; padding: 40px 28px; text-align: center; max-width: 340px; width: 100%; transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+  .affirmation-overlay.show .affirmation-card { transform: scale(1); }
+  .affirmation-emoji { font-size: 4rem; margin-bottom: 16px; display: block; animation: bounce 0.6s ease 0.3s both; }
+  @keyframes bounce { 0%{transform:scale(0)} 60%{transform:scale(1.2)} 100%{transform:scale(1)} }
+  .affirmation-points { display: inline-block; background: linear-gradient(135deg, var(--sun), #ffb347); color: var(--deep); border-radius: 50px; padding: 4px 16px; font-weight: 800; font-size: 1rem; margin-bottom: 16px; }
+  .affirmation-text { font-size: 1.3rem; font-weight: 800; line-height: 1.4; color: var(--white); margin-bottom: 8px; }
+  .affirmation-sub { font-size: 0.9rem; color: var(--foam); opacity: 0.7; margin-bottom: 28px; }
 
-  /* Join screen */
-  .join-info {
-    background: rgba(56, 182, 255, 0.1);
-    border: 1px solid rgba(56, 182, 255, 0.2);
-    border-radius: 14px;
-    padding: 14px;
-    text-align: center;
-    margin-bottom: 16px;
-  }
+  .loading-screen { position: fixed; inset: 0; background: var(--deep); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; gap: 20px; transition: opacity 0.4s; }
+  .loading-logo { font-family: 'Righteous', cursive; font-size: 2.5rem; background: linear-gradient(135deg, var(--sky), var(--mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .loading-dots { display: flex; gap: 8px; }
+  .loading-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sky); animation: dotPulse 1.2s ease-in-out infinite; }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; background: var(--mint); }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; background: var(--foam); }
+  @keyframes dotPulse { 0%,100%{transform:scale(0.6);opacity:0.4} 50%{transform:scale(1);opacity:1} }
 
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); display: inline-block; margin-right: 4px; animation: syncP 2s ease-in-out infinite; }
+  @keyframes syncP { 0%,100%{opacity:0.3}50%{opacity:1} }
+
+  #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--wave), var(--sky)); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; z-index: 300; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transition: opacity 0.4s; opacity: 0; pointer-events: none; }
+
+  #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
+
+  .join-info { background: rgba(56,182,255,0.1); border: 1px solid rgba(56,182,255,0.2); border-radius: 14px; padding: 14px; text-align: center; margin-bottom: 16px; }
   .join-inviter { font-size: 1.1rem; font-weight: 800; color: var(--sky); }
 
-  /* Responsive */
-  @media (max-width: 360px) {
-    .drink-btn { width: 150px; height: 150px; }
-    .logo { font-size: 2.2rem; }
-  }
+  .live-pill { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.3); border-radius: 50px; padding: 3px 10px; font-size: 0.68rem; font-weight: 700; color: var(--mint); letter-spacing: 0.5px; }
 </style>
 </head>
 <body>
 
+<div class="loading-screen" id="loading-screen">
+  <div class="loading-logo">💧 HydroPals</div>
+  <div class="loading-dots">
+    <div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div>
+  </div>
+  <div style="font-size:0.85rem;color:var(--foam);opacity:0.6">Connecting...</div>
+</div>
+
 <div class="bubbles" id="bubbles"></div>
 <canvas id="confetti-canvas"></canvas>
+<div id="toast"></div>
 
 <div class="container">
   <header>
@@ -809,12 +262,12 @@
     <div class="tagline">Drink together. Stay legendary.</div>
   </header>
 
-  <!-- SETUP SCREEN -->
-  <div class="screen active" id="screen-setup">
+  <!-- SETUP -->
+  <div class="screen" id="screen-setup">
     <div class="setup-card">
-      <h2>Welcome, friend! 👋</h2>
+      <h2>Welcome! 👋</h2>
       <p>What should we call you?</p>
-      <input type="text" id="setup-name" placeholder="Your name..." maxlength="24" />
+      <input type="text" id="setup-name" placeholder="Your name..." maxlength="24"/>
       <p style="margin-bottom:10px;margin-top:-8px">Daily water goal:</p>
       <div class="goal-picker" id="setup-goal-picker">
         <button class="goal-opt" data-val="4" onclick="selectGoal(this)">4</button>
@@ -823,14 +276,12 @@
         <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
         <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
       </div>
-      <div style="font-size:0.78rem;color:var(--foam);opacity:0.6;margin-bottom:20px;margin-top:-4px">glasses per day</div>
-      <button class="btn btn-primary" onclick="setupUser()">
-        💧 Start Hydrating
-      </button>
+      <div style="font-size:0.78rem;color:var(--foam);opacity:0.6;margin-bottom:20px">glasses per day</div>
+      <button class="btn btn-primary" id="setup-btn" onclick="setupUser()">💧 Start Hydrating</button>
     </div>
   </div>
 
-  <!-- JOIN SCREEN (when invited) -->
+  <!-- JOIN -->
   <div class="screen" id="screen-join">
     <div class="setup-card">
       <span style="font-size:3rem">🤝</span>
@@ -839,8 +290,8 @@
         <div id="join-inviter-name" class="join-inviter"></div>
         <div style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-top:4px">wants you to join their hydration crew</div>
       </div>
-      <p style="margin-bottom:20px">Enter your name to join and start earning points together!</p>
-      <input type="text" id="join-name" placeholder="Your name..." maxlength="24" />
+      <p style="margin-bottom:20px">Enter your name to join!</p>
+      <input type="text" id="join-name" placeholder="Your name..." maxlength="24"/>
       <p style="margin-bottom:10px;margin-top:-8px">Daily water goal:</p>
       <div class="goal-picker" id="join-goal-picker">
         <button class="goal-opt" data-val="4" onclick="selectGoal(this)">4</button>
@@ -849,26 +300,27 @@
         <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
         <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
       </div>
-      <div style="font-size:0.78rem;color:var(--foam);opacity:0.6;margin-bottom:20px;margin-top:-4px">glasses per day</div>
-      <button class="btn btn-primary" onclick="joinUser()">
-        💧 Join the Crew
-      </button>
+      <div style="font-size:0.78rem;color:var(--foam);opacity:0.6;margin-bottom:20px">glasses per day</div>
+      <button class="btn btn-primary" id="join-btn" onclick="joinUser()">💧 Join the Crew</button>
     </div>
   </div>
 
-  <!-- MAIN SCREEN -->
+  <!-- MAIN -->
   <div class="screen" id="screen-main">
-    <!-- Dashboard tab -->
+
+    <!-- HOME -->
     <div id="tab-home" class="tab-content">
       <div class="user-bar">
         <div>
           <div class="user-greeting">Hey there,</div>
           <div class="user-name" id="display-name">–</div>
         </div>
-        <div class="points-badge">⭐ <span id="display-points">0</span> pts</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="points-badge">⭐ <span id="display-points">0</span> pts</div>
+          <div class="live-pill"><span class="sync-dot"></span>LIVE SYNC</div>
+        </div>
       </div>
 
-      <!-- Month view -->
       <div class="card section">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
           <div class="card-title" style="margin-bottom:0">🔥 This Month</div>
@@ -877,7 +329,6 @@
         <div class="month-grid" id="month-grid"></div>
       </div>
 
-      <!-- Drink button -->
       <div class="drink-section">
         <div class="progress-ring-wrap">
           <svg class="progress-ring-svg" width="180" height="180" viewBox="0 0 180 180">
@@ -893,8 +344,7 @@
             </defs>
             <circle class="progress-ring-track" cx="90" cy="90" r="84"/>
             <circle class="progress-ring-fill" id="progress-ring-fill" cx="90" cy="90" r="84"
-              stroke-dasharray="527.8"
-              stroke-dashoffset="527.8"/>
+              stroke-dasharray="527.8" stroke-dashoffset="527.8"/>
           </svg>
           <button class="drink-btn" id="drink-btn" onclick="logDrink()">
             <span class="drink-btn-icon" id="drink-btn-icon">💧</span>
@@ -902,11 +352,11 @@
           </button>
         </div>
         <div class="drink-status" id="drink-status"></div>
-        <div style="margin-top:6px;font-size:0.8rem;color:var(--foam);opacity:0.5" id="goal-hint"></div>
+        <div class="goal-hint" id="goal-hint"></div>
       </div>
     </div>
 
-    <!-- Stats tab -->
+    <!-- STATS -->
     <div id="tab-stats" class="tab-content" style="display:none">
       <div class="card section">
         <div class="card-title">📊 This Week</div>
@@ -936,18 +386,20 @@
       </div>
     </div>
 
-    <!-- Friends tab -->
+    <!-- FRIENDS -->
     <div id="tab-friends" class="tab-content" style="display:none">
       <div class="card section">
-        <div class="card-title">🏆 Crew Leaderboard</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="card-title" style="margin-bottom:0">🏆 Crew Leaderboard</div>
+          <div class="live-pill"><span class="sync-dot"></span>LIVE</div>
+        </div>
         <div class="friends-list" id="friends-list">
-          <div class="empty-friends">No friends yet — invite someone!</div>
+          <div class="empty-friends">Loading crew...</div>
         </div>
       </div>
-
       <div class="card section">
         <div class="card-title">📨 Invite a Friend</div>
-        <p style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-bottom:12px">Share your unique link — when they join, they'll automatically be in your crew!</p>
+        <p style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-bottom:12px">Share your link — they'll appear in your crew the moment they join! Both sides sync automatically. ✅</p>
         <div class="invite-row">
           <div class="invite-link-box" id="invite-link-display">Generating...</div>
           <button class="btn-copy" id="copy-btn" onclick="copyInviteLink()">Copy</button>
@@ -956,13 +408,13 @@
       </div>
     </div>
 
-    <!-- Settings tab -->
+    <!-- SETTINGS -->
     <div id="tab-settings" class="tab-content" style="display:none">
       <div class="card section">
         <div class="card-title">🎯 Daily Goal</div>
         <div class="goal-row">
           <div class="goal-label">Target glasses per day</div>
-          <div class="goal-value" id="settings-goal-val">8</div>
+          <div class="goal-value" id="settings-goal-val">6</div>
         </div>
         <div class="goal-picker" id="settings-goal-picker" style="justify-content:flex-start;margin-top:12px">
           <button class="goal-opt" data-val="4" onclick="selectGoal(this)">4</button>
@@ -971,19 +423,14 @@
           <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
           <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
         </div>
-        <div style="font-size:0.8rem;color:var(--foam);opacity:0.6;margin-top:8px">Your streak counts when you hit your daily goal ✅</div>
-      </div>
-      <div class="card section">
-        <div class="card-title">👤 Profile</div>
-        <div style="font-size:0.9rem;color:var(--foam);opacity:0.7">Logged in as</div>
-        <div style="font-size:1.2rem;font-weight:800;margin-top:2px" id="settings-name-display"></div>
+        <div style="font-size:0.8rem;color:var(--foam);opacity:0.6;margin-top:8px">Streak counts when you hit your daily goal ✅</div>
       </div>
 
       <div class="card section">
         <div class="card-title">🔔 Reminders</div>
         <div class="notif-row">
           <div>
-            <div style="font-weight:700;font-size:0.95rem">Daily reminder</div>
+            <div style="font-weight:700;font-size:0.95rem">Daily reminders</div>
             <div style="font-size:0.8rem;color:var(--foam);opacity:0.65;margin-top:2px">Get nudged to drink water</div>
           </div>
           <label class="toggle">
@@ -1001,34 +448,35 @@
           <div style="font-size:0.75rem;color:var(--foam);opacity:0.5;margin-top:8px">Morning · Afternoon · Evening</div>
         </div>
         <div id="notif-status" style="font-size:0.8rem;margin-top:10px;color:var(--mint);display:none"></div>
-        <div style="font-size:0.75rem;color:var(--foam);opacity:0.45;margin-top:10px;line-height:1.4">⚠️ Notifications require the browser/tab to be open. For phone alerts, add this site to your Home Screen (Share → Add to Home Screen on iOS).</div>
+        <div style="font-size:0.75rem;color:var(--foam);opacity:0.4;margin-top:10px;line-height:1.5">⚠️ Requires browser to be open. On iPhone: Safari → Share → "Add to Home Screen" for app-like alerts.</div>
+      </div>
+
+      <div class="card section">
+        <div class="card-title">👤 Profile</div>
+        <div style="font-size:0.9rem;color:var(--foam);opacity:0.7">Logged in as</div>
+        <div style="font-size:1.2rem;font-weight:800;margin-top:2px" id="settings-name-display"></div>
+        <div style="font-size:0.72rem;color:var(--foam);opacity:0.35;margin-top:4px" id="settings-userid"></div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- Bottom Nav -->
 <nav class="nav" id="main-nav" style="display:none">
-  <button class="nav-btn active" onclick="showTab('home', this)">
-    <span class="nav-btn-icon">💧</span>
-    <span class="nav-btn-label">Home</span>
+  <button class="nav-btn active" onclick="showTab('home',this)">
+    <span class="nav-btn-icon">💧</span><span class="nav-btn-label">Home</span>
   </button>
-  <button class="nav-btn" onclick="showTab('stats', this)">
-    <span class="nav-btn-icon">📊</span>
-    <span class="nav-btn-label">Stats</span>
+  <button class="nav-btn" onclick="showTab('stats',this)">
+    <span class="nav-btn-icon">📊</span><span class="nav-btn-label">Stats</span>
   </button>
-  <button class="nav-btn" onclick="showTab('friends', this)">
-    <span class="nav-btn-icon">👥</span>
-    <span class="nav-btn-label">Crew</span>
+  <button class="nav-btn" onclick="showTab('friends',this)">
+    <span class="nav-btn-icon">👥</span><span class="nav-btn-label">Crew</span>
   </button>
-  <button class="nav-btn" onclick="showTab('settings', this)">
-    <span class="nav-btn-icon">⚙️</span>
-    <span class="nav-btn-label">Goals</span>
+  <button class="nav-btn" onclick="showTab('settings',this)">
+    <span class="nav-btn-icon">⚙️</span><span class="nav-btn-label">Goals</span>
   </button>
 </nav>
 
-<!-- Affirmation Overlay -->
 <div class="affirmation-overlay" id="affirmation-overlay" onclick="closeAffirmation()">
   <div class="affirmation-card" onclick="event.stopPropagation()">
     <span class="affirmation-emoji" id="aff-emoji">💧</span>
@@ -1040,699 +488,589 @@
 </div>
 
 <script>
-// ─── Data Layer ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════
+// SUPABASE
+// ═══════════════════════════════════════
+const SB_URL = 'https://qvjatwzmnikcqobtrxfk.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2amF0d3ptbmlrY3FvYnRyeGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1MzA2MjAsImV4cCI6MjA4NzEwNjYyMH0.E1hdQ3mGzJiPjuG8cZaf8jPmT2nZ0wPKWsiGcFqg-T8';
+const SB_HEADS = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 
-const AFFIRMATIONS = [
-  { emoji: '💧', text: "You're absolutely crushing it!", sub: "Your body is glowing with gratitude." },
-  { emoji: '🌊', text: "Wave after wave of greatness!", sub: "Hydration is your superpower." },
-  { emoji: '✨', text: "Sparkling from the inside out!", sub: "You make drinking water look cool." },
-  { emoji: '🐳', text: "Big splash energy today!", sub: "Ocean-level dedication right here." },
-  { emoji: '🌿', text: "Growing stronger every sip!", sub: "Plants respect you. Deeply." },
-  { emoji: '🏆', text: "A hydration champion is born!", sub: "Future you says: THANK YOU." },
-  { emoji: '⚡', text: "Electrically hydrated!", sub: "You're practically glowing." },
-  { emoji: '🎯', text: "Bullseye on that H₂O!", sub: "Precision hydration. Respect." },
-  { emoji: '🌟', text: "You absolute STAR!", sub: "Even stars need water. Probably." },
-  { emoji: '🦈', text: "Shark mode: ACTIVATED!", sub: "Always moving, always hydrated." },
-  { emoji: '🍀', text: "Lucky to have you hydrating!", sub: "Today just got a whole lot better." },
-  { emoji: '🚀', text: "To the moon and hydrated!", sub: "Your body thanks you for fueling up." },
-  { emoji: '🌈', text: "Sip sip hooray!", sub: "Every drop counts toward greatness." },
-  { emoji: '🦁', text: "Lion energy. Hydrated edition.", sub: "The jungle bows to your discipline." },
-  { emoji: '🔥', text: "On fire AND hydrated?!", sub: "That's the dream. That's YOU." },
-  { emoji: '🧊', text: "Cool, calm, and hydrated.", sub: "Unshakeable. Unstoppable. Wet." },
-  { emoji: '🌺', text: "Blooming with every sip!", sub: "Flowers wish they drank like you." },
-  { emoji: '🐬', text: "Dolphin vibes all day!", sub: "Smart, sleek, and soaking it in." },
-  { emoji: '💎', text: "Diamond-level hydration!", sub: "Rare. Precious. Absolutely iconic." },
-  { emoji: '🎸', text: "Rocking that water intake!", sub: "Your cells are headbanging with joy." },
-  { emoji: '🧠', text: "Big brain energy activated!", sub: "75% water. You're basically genius juice." },
-  { emoji: '🏄', text: "Riding the hydration wave!", sub: "Hang loose and stay watered." },
-  { emoji: '🦋', text: "Transforming one sip at a time!", sub: "Glow up in progress. Drink up." },
-  { emoji: '🌙', text: "Even the moon pulls tides for you.", sub: "Water bends to your will." },
-  { emoji: '🍉', text: "92% water. Just like you!", sub: "You and watermelon are basically twins." },
-  { emoji: '🐉', text: "Dragon energy, water edition.", sub: "Mythically hydrated. Legendary status." },
-  { emoji: '🎪', text: "The main event: YOU drinking water!", sub: "Standing ovation from your kidneys." },
-  { emoji: '🌍', text: "You're 70% water now.", sub: "Congratulations, you're basically Earth." },
-  { emoji: '🦅', text: "Soaring on hydration wings!", sub: "Eagles don't skip water. Neither do you." },
-  { emoji: '🎭', text: "Plot twist: you're THRIVING!", sub: "The hero always stays hydrated." },
-  { emoji: '🍋', text: "When life gives you water, drink it!", sub: "Zesty, refreshed, unstoppable." },
-  { emoji: '🌊', text: "You ARE the ocean.", sub: "Deep, powerful, and wonderfully wet." },
-  { emoji: '🏋️', text: "Hydration gains unlocked!", sub: "Water is the original performance enhancer." },
-  { emoji: '🧲', text: "Attracting good vibes and great health!", sub: "Hydration magnetism is real." },
-  { emoji: '🪐', text: "Planetary-level hydration!", sub: "Saturn has rings. You have water goals." },
-  { emoji: '🎨', text: "Painting your health masterpiece!", sub: "Every sip is a brushstroke of genius." },
-  { emoji: '🦄', text: "Mythically hydrated!", sub: "Unicorns drink water. Now you know." },
-  { emoji: '🌤️', text: "Every cloud has a silver lining.", sub: "Yours is filled with water. Drink up." },
-  { emoji: '🧬', text: "DNA-level hydration!", sub: "Your cells just sent a thank-you note." },
-  { emoji: '🎯', text: "Locked in. Locked on. Hydrated.", sub: "Nothing can stop you now." },
+async function dbGet(id) {
+  const r = await fetch(`${SB_URL}/rest/v1/users?id=eq.${id}&select=*`, { headers: SB_HEADS });
+  const d = await r.json();
+  return d[0] || null;
+}
+
+async function dbSave(row) {
+  row.updated_at = new Date().toISOString();
+  const r = await fetch(`${SB_URL}/rest/v1/users`, {
+    method: 'POST',
+    headers: { ...SB_HEADS, 'Prefer': 'resolution=merge-duplicates,return=representation' },
+    body: JSON.stringify(row)
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+async function dbGetMany(ids) {
+  if (!ids || !ids.length) return [];
+  const q = ids.map(i => `"${i}"`).join(',');
+  const r = await fetch(`${SB_URL}/rest/v1/users?id=in.(${q})&select=id,name,points,streak,daily_goal,drinks`, { headers: SB_HEADS });
+  return await r.json();
+}
+
+async function dbPatch(id, patch) {
+  patch.updated_at = new Date().toISOString();
+  await fetch(`${SB_URL}/rest/v1/users?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { ...SB_HEADS, 'Prefer': 'return=minimal' },
+    body: JSON.stringify(patch)
+  });
+}
+
+// ═══════════════════════════════════════
+// AFFIRMATIONS (40)
+// ═══════════════════════════════════════
+const AFF = [
+  {e:'💧',t:"You're absolutely crushing it!",s:"Your body is glowing with gratitude."},
+  {e:'🌊',t:"Wave after wave of greatness!",s:"Hydration is your superpower."},
+  {e:'✨',t:"Sparkling from the inside out!",s:"You make drinking water look cool."},
+  {e:'🐳',t:"Big splash energy today!",s:"Ocean-level dedication right here."},
+  {e:'🌿',t:"Growing stronger every sip!",s:"Plants respect you. Deeply."},
+  {e:'🏆',t:"A hydration champion is born!",s:"Future you says: THANK YOU."},
+  {e:'⚡',t:"Electrically hydrated!",s:"You're practically glowing."},
+  {e:'🎯',t:"Bullseye on that H₂O!",s:"Precision hydration. Respect."},
+  {e:'🌟',t:"You absolute STAR!",s:"Even stars need water. Probably."},
+  {e:'🦈',t:"Shark mode: ACTIVATED!",s:"Always moving, always hydrated."},
+  {e:'🍀',t:"Lucky to have you hydrating!",s:"Today just got a whole lot better."},
+  {e:'🚀',t:"To the moon and hydrated!",s:"Your body thanks you for fueling up."},
+  {e:'🌈',t:"Sip sip hooray!",s:"Every drop counts toward greatness."},
+  {e:'🦁',t:"Lion energy. Hydrated edition.",s:"The jungle bows to your discipline."},
+  {e:'🔥',t:"On fire AND hydrated?!",s:"That's the dream. That's YOU."},
+  {e:'🧊',t:"Cool, calm, and hydrated.",s:"Unshakeable. Unstoppable. Wet."},
+  {e:'🌺',t:"Blooming with every sip!",s:"Flowers wish they drank like you."},
+  {e:'🐬',t:"Dolphin vibes all day!",s:"Smart, sleek, and soaking it in."},
+  {e:'💎',t:"Diamond-level hydration!",s:"Rare. Precious. Absolutely iconic."},
+  {e:'🎸',t:"Rocking that water intake!",s:"Your cells are headbanging with joy."},
+  {e:'🧠',t:"Big brain energy activated!",s:"75% water. You're basically genius juice."},
+  {e:'🏄',t:"Riding the hydration wave!",s:"Hang loose and stay watered."},
+  {e:'🦋',t:"Transforming one sip at a time!",s:"Glow up in progress. Drink up."},
+  {e:'🌙',t:"Even the moon pulls tides for you.",s:"Water bends to your will."},
+  {e:'🍉',t:"92% water. Just like you!",s:"You and watermelon are basically twins."},
+  {e:'🐉',t:"Dragon energy, water edition.",s:"Mythically hydrated. Legendary status."},
+  {e:'🎪',t:"The main event: YOU drinking water!",s:"Standing ovation from your kidneys."},
+  {e:'🌍',t:"You're basically Earth.",s:"70% water and absolutely thriving."},
+  {e:'🦅',t:"Soaring on hydration wings!",s:"Eagles don't skip water. Neither do you."},
+  {e:'🎭',t:"Plot twist: you're THRIVING!",s:"The hero always stays hydrated."},
+  {e:'🍋',t:"When life gives you water, drink it!",s:"Zesty, refreshed, unstoppable."},
+  {e:'🏋️',t:"Hydration gains unlocked!",s:"Water is the original performance enhancer."},
+  {e:'🧲',t:"Attracting good vibes and great health!",s:"Hydration magnetism is real."},
+  {e:'🪐',t:"Planetary-level hydration!",s:"Saturn has rings. You have water goals."},
+  {e:'🎨',t:"Painting your health masterpiece!",s:"Every sip is a brushstroke of genius."},
+  {e:'🦄',t:"Mythically hydrated!",s:"Unicorns drink water. Now you know."},
+  {e:'🌤️',t:"Every cloud has a silver lining.",s:"Yours is filled with water. Drink up."},
+  {e:'🧬',t:"DNA-level hydration!",s:"Your cells just sent a thank-you note."},
+  {e:'🌊',t:"You ARE the ocean.",s:"Deep, powerful, wonderfully hydrated."},
+  {e:'🎯',t:"Locked in. Locked on. Hydrated.",s:"Nothing can stop you now."},
 ];
 
-function getStorage() {
-  try { return JSON.parse(localStorage.getItem('hydropals') || 'null'); }
-  catch { return null; }
-}
-
-function setStorage(data) {
-  localStorage.setItem('hydropals', JSON.stringify(data));
-}
-
-function today() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function initUser(name, inviterCode, dailyGoal) {
-  const userId = Math.random().toString(36).slice(2, 10);
-  const data = {
-    userId,
-    name,
-    points: 0,
-    totalDrinks: 0,
-    drinks: {}, // { 'YYYY-MM-DD': count }
-    streak: 0,
-    bestStreak: 0,
-    dailyGoal: dailyGoal || 6,
-    friends: [], // [{userId, name, points, totalDrinks, drinks, streak, lastSeen}]
-    inviterCode: inviterCode || null,
-    joinedAt: Date.now(),
-  };
-  setStorage(data);
-  return data;
-}
-
-function getUserCode(data) {
-  return btoa(JSON.stringify({
-    userId: data.userId,
-    name: data.name,
-    points: data.points || 0,
-    streak: data.streak || 0,
-    totalDrinks: data.totalDrinks || 0,
-  }));
-}
-
-function parseCode(code) {
-  try { return JSON.parse(atob(code)); }
-  catch { return null; }
-}
-
-// ─── Init ────────────────────────────────────────────────────────────────────
-
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
 let APP = null;
+let CREW = [];
 
-window.addEventListener('load', () => {
+const plural = (n, w) => `${n} ${w}${n !== 1 ? 's' : ''}`;
+const todayStr = () => new Date().toISOString().slice(0,10);
+const getLocalId = () => localStorage.getItem('hp_uid');
+const setLocalId = id => localStorage.setItem('hp_uid', id);
+
+function toRow(a) {
+  return {
+    id: a.id, name: a.name, points: a.points,
+    total_drinks: a.totalDrinks, drinks: a.drinks,
+    streak: a.streak, best_streak: a.bestStreak,
+    daily_goal: a.dailyGoal,
+    notif_times: a.notifTimes || ['09:00','14:00','19:00'],
+    notifications_enabled: a.notificationsEnabled || false,
+    friends: a.friends || [],
+  };
+}
+
+function fromRow(r) {
+  return {
+    id: r.id, name: r.name, points: r.points || 0,
+    totalDrinks: r.total_drinks || 0, drinks: r.drinks || {},
+    streak: r.streak || 0, bestStreak: r.best_streak || 0,
+    dailyGoal: r.daily_goal || 6,
+    notifTimes: r.notif_times || ['09:00','14:00','19:00'],
+    notificationsEnabled: r.notifications_enabled || false,
+    friends: r.friends || [],
+  };
+}
+
+async function save() { if (APP) await dbSave(toRow(APP)); }
+
+// ═══════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════
+window.addEventListener('load', async () => {
   createBubbles();
-  
   const params = new URLSearchParams(location.search);
-  const inviteCode = params.get('invite');
-  
-  APP = getStorage();
+  const invCode = params.get('invite');
+  const uid = getLocalId();
 
-  if (APP) {
-    // Already have an account
-    if (inviteCode) {
-      // Accept new friend
-      const info = parseCode(inviteCode);
-      addFriendFromCode(inviteCode);
-      showMain(info ? info.name : null);
-    } else {
-      showMain();
+  try {
+    if (uid) {
+      const row = await dbGet(uid);
+      if (row) {
+        APP = fromRow(row);
+        if (invCode) await acceptInvite(invCode);
+        hideLoading();
+        enterApp();
+        return;
+      }
     }
-  } else if (inviteCode) {
-    // New user joining via invite
-    const inviter = parseCode(inviteCode);
-    if (inviter) {
-      document.getElementById('join-inviter-name').textContent = inviter.name;
-      document.getElementById('join-name').value = '';
-      showScreen('join');
-      document.getElementById('screen-join').dataset.inviteCode = inviteCode;
-    } else {
-      showScreen('setup');
+    hideLoading();
+    if (invCode) {
+      const info = decodeInvite(invCode);
+      if (info) {
+        document.getElementById('join-inviter-name').textContent = info.name;
+        document.getElementById('screen-join').dataset.code = invCode;
+        showScreen('join');
+        return;
+      }
     }
-  } else {
+    showScreen('setup');
+  } catch(e) {
+    console.error(e);
+    hideLoading();
+    showToast('⚠️ Could not connect to server.');
     showScreen('setup');
   }
 });
 
-function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
+function hideLoading() {
+  const el = document.getElementById('loading-screen');
+  el.style.opacity = '0';
+  setTimeout(() => el.style.display = 'none', 400);
 }
 
-// ─── Setup ───────────────────────────────────────────────────────────────────
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + n).classList.add('active');
+}
 
-function setupUser() {
+// ═══════════════════════════════════════
+// INVITE
+// ═══════════════════════════════════════
+function encodeInvite(app) { return btoa(JSON.stringify({ id: app.id, name: app.name })); }
+function decodeInvite(code) { try { return JSON.parse(atob(code)); } catch { return null; } }
+
+async function acceptInvite(code) {
+  const info = decodeInvite(code);
+  if (!info || !APP || info.id === APP.id) return;
+  let changed = false;
+
+  // Add them to my friends
+  if (!APP.friends.includes(info.id)) { APP.friends.push(info.id); changed = true; }
+
+  // Add me to their friends (mutual)
+  const theirRow = await dbGet(info.id);
+  if (theirRow) {
+    const tf = theirRow.friends || [];
+    if (!tf.includes(APP.id)) {
+      tf.push(APP.id);
+      await dbPatch(info.id, { friends: tf });
+    }
+  }
+
+  if (changed) { await save(); showToast(`🤝 ${info.name} added to your crew!`); }
+}
+
+// ═══════════════════════════════════════
+// SETUP / JOIN
+// ═══════════════════════════════════════
+async function setupUser() {
   const name = document.getElementById('setup-name').value.trim();
   if (!name) { document.getElementById('setup-name').focus(); return; }
-  const goalBtn = document.querySelector('#setup-goal-picker .goal-opt.active');
-  const goal = goalBtn ? parseInt(goalBtn.dataset.val) : 6;
-  APP = initUser(name, null, goal);
-  setStorage(APP);
-  showMain();
+  const btn = document.getElementById('setup-btn');
+  btn.disabled = true; btn.textContent = 'Creating...';
+
+  const goal = parseInt(document.querySelector('#setup-goal-picker .goal-opt.active')?.dataset.val || '6');
+  const id = self.crypto.randomUUID();
+
+  APP = { id, name, points: 0, totalDrinks: 0, drinks: {}, streak: 0, bestStreak: 0, dailyGoal: goal, notifTimes: ['09:00','14:00','19:00'], notificationsEnabled: false, friends: [] };
+
+  try {
+    await save();
+    setLocalId(id);
+    enterApp();
+  } catch(e) {
+    btn.disabled = false; btn.textContent = '💧 Start Hydrating';
+    showToast('❌ Connection failed. Check internet and try again.');
+  }
 }
 
-function joinUser() {
+async function joinUser() {
   const name = document.getElementById('join-name').value.trim();
   if (!name) { document.getElementById('join-name').focus(); return; }
-  const goalBtn = document.querySelector('#join-goal-picker .goal-opt.active');
-  const goal = goalBtn ? parseInt(goalBtn.dataset.val) : 6;
-  const inviteCode = document.getElementById('screen-join').dataset.inviteCode;
-  APP = initUser(name, inviteCode, goal);
-  // Add the inviter as a friend immediately on joiner's side
-  addFriendFromCode(inviteCode, true);
-  setStorage(APP);
-  // Show return link so inviter can add joiner back
-  showMain();
-  // Switch to friends tab and show the return link
-  setTimeout(() => {
-    showReturnLinkBanner(inviteCode);
-  }, 500);
-}
+  const btn = document.getElementById('join-btn');
+  btn.disabled = true; btn.textContent = 'Joining...';
 
-function showReturnLinkBanner(inviterCode) {
-  // Generate a link the inviter clicks to add the new joiner
-  const myCode = getUserCode(APP);
-  const base = location.origin + location.pathname;
-  const returnLink = `${base}?invite=${myCode}`;
+  const goal = parseInt(document.querySelector('#join-goal-picker .goal-opt.active')?.dataset.val || '6');
+  const code = document.getElementById('screen-join').dataset.code;
+  const inviterInfo = decodeInvite(code);
 
-  const inviterInfo = parseCode(inviterCode);
-  const inviterName = inviterInfo ? inviterInfo.name : 'your friend';
+  const id = self.crypto.randomUUID();
+  APP = {
+    id, name, points: 0, totalDrinks: 0, drinks: {}, streak: 0, bestStreak: 0,
+    dailyGoal: goal, notifTimes: ['09:00','14:00','19:00'], notificationsEnabled: false,
+    friends: inviterInfo ? [inviterInfo.id] : []
+  };
 
-  // Show a prominent banner
-  let banner = document.getElementById('return-banner');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'return-banner';
-    banner.style.cssText = `
-      background: linear-gradient(135deg, rgba(0,229,195,0.15), rgba(56,182,255,0.1));
-      border: 1px solid rgba(0,229,195,0.4);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 16px;
-    `;
-    const friendsCard = document.querySelector('#tab-friends .card');
-    if (friendsCard) friendsCard.parentNode.insertBefore(banner, friendsCard);
+  try {
+    await save();
+    setLocalId(id);
+
+    // Mutually add joiner to inviter's list
+    if (inviterInfo) {
+      const theirRow = await dbGet(inviterInfo.id);
+      if (theirRow) {
+        const tf = theirRow.friends || [];
+        if (!tf.includes(id)) {
+          tf.push(id);
+          await dbPatch(inviterInfo.id, { friends: tf });
+        }
+      }
+    }
+
+    enterApp();
+    showToast(`🎉 Welcome to the crew, ${name}!`);
+  } catch(e) {
+    btn.disabled = false; btn.textContent = '💧 Join the Crew';
+    showToast('❌ Connection failed. Check internet and try again.');
   }
-  banner.innerHTML = `
-    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--mint);font-weight:700;margin-bottom:8px">👋 One more step!</div>
-    <div style="font-size:0.9rem;color:var(--foam);margin-bottom:12px">Send <strong>${inviterName}</strong> this link so they can add you to their crew too:</div>
-    <div style="display:flex;gap:8px">
-      <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(56,182,255,0.2);border-radius:10px;padding:10px;font-size:0.7rem;font-family:monospace;color:var(--foam);word-break:break-all">${returnLink}</div>
-      <button onclick="navigator.clipboard.writeText('${returnLink}').then(()=>{this.textContent='✅';setTimeout(()=>this.textContent='Copy',2000)})" style="background:rgba(0,229,195,0.2);border:1px solid rgba(0,229,195,0.4);border-radius:10px;color:var(--mint);font-weight:700;padding:10px 12px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap">Copy</button>
-    </div>
-    <div style="font-size:0.75rem;color:var(--foam);opacity:0.5;margin-top:8px">When they open it, you'll both appear in each other's crew ✅</div>
-  `;
-
-  // Switch to friends tab
-  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-  document.getElementById('tab-friends').style.display = 'block';
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.nav-btn')[2].classList.add('active');
 }
 
-function addFriendFromCode(code, skipSave) {
-  const info = parseCode(code);
-  if (!info || !APP) return;
-  if (info.userId === APP.userId) return;
-  if (APP.friends.find(f => f.userId === info.userId)) {
-    // Update existing friend's data if newer
-    const existing = APP.friends.find(f => f.userId === info.userId);
-    if (info.points > (existing.points || 0)) existing.points = info.points;
-    if (info.streak > (existing.streak || 0)) existing.streak = info.streak;
-    if (!skipSave) setStorage(APP);
-    return;
-  }
-  APP.friends.push({
-    userId: info.userId,
-    name: info.name,
-    points: info.points || 0,
-    totalDrinks: info.totalDrinks || 0,
-    drinks: {},
-    streak: info.streak || 0,
-    lastSeen: Date.now(),
-  });
-  if (!skipSave) setStorage(APP);
-}
-
-// ─── Main UI ─────────────────────────────────────────────────────────────────
-
-function showMain(newFriendName) {
+// ═══════════════════════════════════════
+// APP ENTRY
+// ═══════════════════════════════════════
+function enterApp() {
   showScreen('main');
   document.getElementById('main-nav').style.display = 'flex';
+  history.replaceState({}, '', location.pathname);
   refreshUI();
+  loadCrew();
   initNotifUI();
   scheduleNotifications();
-  // Clean URL
-  if (location.search) history.replaceState({}, '', location.pathname);
-  // Show toast if new friend was added
-  if (newFriendName) showToast(`🤝 ${newFriendName} added to your crew!`);
+
+  // Poll crew every 20s
+  if (window._crewPoll) clearInterval(window._crewPoll);
+  window._crewPoll = setInterval(loadCrew, 20000);
 }
 
-function showToast(msg) {
-  let toast = document.getElementById('toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'toast';
-    toast.style.cssText = `position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--wave),var(--sky));color:white;padding:12px 20px;border-radius:50px;font-weight:700;font-size:0.9rem;z-index:300;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.3);transition:opacity 0.4s`;
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.style.opacity = '1';
-  setTimeout(() => toast.style.opacity = '0', 3000);
+async function loadCrew() {
+  if (!APP || !APP.friends.length) { CREW = []; renderCrew(); return; }
+  try {
+    const rows = await dbGetMany(APP.friends);
+    CREW = rows || [];
+    renderCrew();
+  } catch(e) {}
 }
 
+// ═══════════════════════════════════════
+// REFRESH UI
+// ═══════════════════════════════════════
 function refreshUI() {
   if (!APP) return;
-  const todayStr = today();
+  const t = todayStr();
+  const count = APP.drinks[t] || 0;
+  const goal = APP.dailyGoal || 6;
+  const met = count >= goal;
 
-  // Name & points
   document.getElementById('display-name').textContent = APP.name;
   document.getElementById('display-points').textContent = APP.points;
 
-  // Checked today?
-  const todayCount = APP.drinks[todayStr] || 0;
-  const goal = APP.dailyGoal || 6;
-  const goalMet = todayCount >= goal;
-  const drinkBtn = document.getElementById('drink-btn');
-  const drinkBtnLabel = document.getElementById('drink-btn-label');
-  const drinkStatus = document.getElementById('drink-status');
-  const goalHint = document.getElementById('goal-hint');
-
-  // Progress ring
+  // Ring
   const ring = document.getElementById('progress-ring-fill');
-  const circumference = 527.8;
-  const pct = Math.min(todayCount / goal, 1);
-  ring.style.strokeDashoffset = circumference - pct * circumference;
-  ring.classList.toggle('goal-done', goalMet);
+  ring.style.strokeDashoffset = 527.8 - Math.min(count/goal,1) * 527.8;
+  ring.classList.toggle('goal-done', met);
 
-  if (goalMet) {
-    drinkBtn.classList.add('checked-today');
-    document.getElementById('drink-btn-icon').textContent = '✅';
-    drinkBtnLabel.textContent = 'GOAL MET!';
-    drinkStatus.textContent = `${todayCount} / ${goal} glasses today 🎉`;
-    goalHint.textContent = 'Tap again to log more';
-  } else {
-    drinkBtn.classList.remove('checked-today');
-    document.getElementById('drink-btn-icon').textContent = '💧';
-    drinkBtnLabel.textContent = 'LOG DRINK';
-    drinkStatus.textContent = `${todayCount} / ${goal} glasses today`;
-    goalHint.textContent = `${goal - todayCount} more to hit your goal!`;
-  }
+  // Button
+  document.getElementById('drink-btn').classList.toggle('goal-met', met);
+  document.getElementById('drink-btn-icon').textContent = met ? '✅' : '💧';
+  document.getElementById('drink-btn-label').textContent = met ? 'GOAL MET!' : 'LOG DRINK';
+  document.getElementById('drink-status').textContent = `${count} / ${goal} glasses today`;
+  document.getElementById('goal-hint').textContent = met ? 'Tap again to log more 💪' : `${goal - count} more to hit your goal!`;
 
-  // Settings tab
-  const settingsGoalVal = document.getElementById('settings-goal-val');
-  if (settingsGoalVal) settingsGoalVal.textContent = goal;
-  const settingsName = document.getElementById('settings-name-display');
-  if (settingsName) settingsName.textContent = APP.name;
-  // Sync active button in settings picker
-  document.querySelectorAll('#settings-goal-picker .goal-opt').forEach(b => {
-    b.classList.toggle('active', parseInt(b.dataset.val) === goal);
-  });
+  // Settings
+  const sgv = document.getElementById('settings-goal-val');
+  if (sgv) sgv.textContent = goal;
+  const snd = document.getElementById('settings-name-display');
+  if (snd) snd.textContent = APP.name;
+  const suid = document.getElementById('settings-userid');
+  if (suid) suid.textContent = `ID: ${APP.id.slice(0,8)}...`;
+  document.querySelectorAll('#settings-goal-picker .goal-opt').forEach(b => b.classList.toggle('active', parseInt(b.dataset.val) === goal));
 
-  // Streak / month
   renderMonth();
   renderWeekChart();
   renderStats();
-  renderFriends();
   renderInviteLink();
 }
 
+// ═══════════════════════════════════════
+// MONTH
+// ═══════════════════════════════════════
 function renderMonth() {
   const now = new Date();
-  const todayStr = today();
+  const t = todayStr();
   const goal = APP.dailyGoal || 6;
   const grid = document.getElementById('month-grid');
   grid.innerHTML = '';
-
-  // Day headers
   ['S','M','T','W','T','F','S'].forEach(d => {
     const h = document.createElement('div');
-    h.className = 'month-day-header';
-    h.textContent = d;
-    grid.appendChild(h);
+    h.className = 'month-day-header'; h.textContent = d; grid.appendChild(h);
   });
-
-  // Get first day of month and days in month
-  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  const startDow = firstDay.getDay();
-
-  // Empty cells before first day
-  for (let i = 0; i < startDow; i++) {
-    const empty = document.createElement('div');
-    grid.appendChild(empty);
-  }
-
-  // Day cells
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const count = APP.drinks[dateStr] || 0;
-    const isToday = dateStr === todayStr;
-    const isFuture = dateStr > todayStr;
-    const metGoal = count >= goal;
-
+  const first = new Date(now.getFullYear(), now.getMonth(), 1);
+  const days = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+  for (let i = 0; i < first.getDay(); i++) grid.appendChild(document.createElement('div'));
+  for (let d = 1; d <= days; d++) {
+    const ds = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const c = APP.drinks[ds] || 0;
     const cell = document.createElement('div');
-    cell.className = 'month-day' +
-      (metGoal ? ' filled' : '') +
-      (isToday ? ' today' : '') +
-      (isFuture ? ' future' : '');
+    cell.className = 'month-day' + (c>=goal?' filled':'') + (ds===t?' today':'') + (ds>t?' future':'');
     cell.textContent = d;
-    cell.title = `${dateStr}: ${count} glass${count !== 1 ? 'es' : ''}`;
+    cell.title = `${ds}: ${c} glass${c!==1?'es':''}`;
     grid.appendChild(cell);
   }
-
-  // Streak label
-  const streak = calcStreak();
-  const streakText = streak > 0
-    ? `🔥 ${streak} day${streak !== 1 ? 's' : ''}`
-    : 'Start your streak!';
-  document.getElementById('streak-label').textContent = streakText;
+  const s = calcStreak();
+  document.getElementById('streak-label').textContent = s > 0 ? `🔥 ${plural(s,'day')}` : 'Start your streak!';
 }
 
 function calcStreak() {
   const now = new Date();
   const goal = APP.dailyGoal || 6;
-  let streak = 0;
+  let s = 0;
   for (let i = 0; i < 365; i++) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const ds = d.toISOString().slice(0,10);
-    if ((APP.drinks[ds] || 0) >= goal) streak++;
+    const d = new Date(now); d.setDate(d.getDate()-i);
+    if ((APP.drinks[d.toISOString().slice(0,10)]||0) >= goal) s++;
     else break;
   }
-  return streak;
+  return s;
 }
 
+// ═══════════════════════════════════════
+// WEEK CHART
+// ═══════════════════════════════════════
 function renderWeekChart() {
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const now = new Date();
-  const todayStr = today();
+  const now = new Date(); const t = todayStr();
   const chart = document.getElementById('week-chart');
   chart.innerHTML = '';
-
   const last7 = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    last7.push(d.toISOString().slice(0,10));
-  }
-
-  const max = Math.max(1, ...last7.map(d => APP.drinks[d] || 0));
-
-  last7.forEach(dateStr => {
-    const d = new Date(dateStr);
-    const count = APP.drinks[dateStr] || 0;
-    const isToday = dateStr === todayStr;
-    const pct = count / max;
-
-    const wrap = document.createElement('div');
-    wrap.className = 'day-bar-wrap';
-
+  for (let i=6;i>=0;i--) { const d=new Date(now); d.setDate(d.getDate()-i); last7.push(d.toISOString().slice(0,10)); }
+  const goal = APP.dailyGoal || 6;
+  const max = Math.max(goal, ...last7.map(d=>APP.drinks[d]||0));
+  last7.forEach(ds => {
+    const d = new Date(ds); const c = APP.drinks[ds]||0; const isT = ds===t;
+    const wrap = document.createElement('div'); wrap.className='day-bar-wrap';
     const bar = document.createElement('div');
-    bar.className = 'day-bar' + (count > 0 ? (isToday ? ' today-bar' : ' has-data') : '');
-    bar.style.height = (pct * 70 + (count > 0 ? 6 : 4)) + 'px';
-
+    bar.className='day-bar'+(c>0?(isT?' today-bar':' has-data'):'');
+    bar.style.height=(c/max*70+(c>0?6:4))+'px';
     const label = document.createElement('div');
-    label.className = 'day-label' + (isToday ? ' today-label' : '');
-    label.textContent = days[d.getDay()].charAt(0);
-
-    wrap.appendChild(bar);
-    wrap.appendChild(label);
-    chart.appendChild(wrap);
+    label.className='day-label'+(isT?' today-label':'');
+    label.textContent=days[d.getDay()].charAt(0);
+    wrap.appendChild(bar); wrap.appendChild(label); chart.appendChild(wrap);
   });
 }
 
+// ═══════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════
 function renderStats() {
   document.getElementById('stat-total-pts').textContent = APP.points;
-  document.getElementById('stat-total-drinks').textContent = APP.totalDrinks || 0;
+  document.getElementById('stat-total-drinks').textContent = APP.totalDrinks||0;
   const cur = calcStreak();
-  const best = Math.max(APP.bestStreak || 0, cur);
+  const best = Math.max(APP.bestStreak||0, cur);
   APP.bestStreak = best;
-  document.getElementById('stat-best-streak').textContent = best + ' day' + (best !== 1 ? 's' : '');
-  document.getElementById('stat-cur-streak').textContent = cur + ' day' + (cur !== 1 ? 's' : '');
+  document.getElementById('stat-best-streak').textContent = plural(best,'day');
+  document.getElementById('stat-cur-streak').textContent = plural(cur,'day');
 }
 
-function renderFriends() {
+// ═══════════════════════════════════════
+// CREW (live from Supabase)
+// ═══════════════════════════════════════
+function renderCrew() {
   const list = document.getElementById('friends-list');
-  const todayStr = today();
+  const t = todayStr();
+  const goal = APP.dailyGoal || 6;
 
-  // Combine self + friends for leaderboard
-  const all = [
-    { name: APP.name + ' (you)', points: APP.points, streak: calcStreak(), checkedToday: !!(APP.drinks[todayStr]), isMe: true },
-    ...APP.friends.map(f => ({
-      name: f.name,
-      points: f.points,
-      streak: f.streak || 0,
-      checkedToday: !!(f.drinks && f.drinks[todayStr]),
-      isMe: false
-    }))
-  ].sort((a, b) => b.points - a.points);
+  const me = { name: APP.name+' (you)', points: APP.points, streak: calcStreak(), met: (APP.drinks[t]||0)>=goal, isMe: true };
+  const others = CREW.map(f => ({
+    name: f.name, points: f.points||0, streak: f.streak||0,
+    met: ((f.drinks||{})[t]||0) >= (f.daily_goal||6), isMe: false
+  }));
+
+  const all = [me, ...others].sort((a,b) => b.points - a.points);
 
   if (all.length <= 1) {
-    list.innerHTML = '<div class="empty-friends">Invite a friend to start competing! 👆</div>';
+    list.innerHTML = '<div class="empty-friends">Invite a friend to compete! Share your link below 👇</div>';
     return;
   }
 
   list.innerHTML = '';
-  const emojis = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+  const medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
   all.forEach((f, i) => {
     const row = document.createElement('div');
     row.className = 'friend-row';
     if (f.isMe) row.style.borderColor = 'rgba(56,182,255,0.35)';
     row.innerHTML = `
-      <div class="friend-avatar">${emojis[i] || '💧'}</div>
+      <div class="friend-avatar">${medals[i]||'💧'}</div>
       <div style="flex:1">
         <div class="friend-name">${f.name}</div>
-        <div class="friend-streak">🔥 ${f.streak} day${f.streak !== 1 ? 's' : ''}</div>
+        <div class="friend-streak-label">🔥 ${plural(f.streak,'day')}</div>
       </div>
       <div style="text-align:right">
         <div class="friend-pts">⭐ ${f.points}</div>
-        <div style="font-size:0.8rem;margin-top:2px">${f.checkedToday ? '✅ today' : '⏳ pending'}</div>
-      </div>
-    `;
+        <div style="font-size:0.8rem;margin-top:2px">${f.met?'✅ goal met':'⏳ pending'}</div>
+      </div>`;
     list.appendChild(row);
   });
 }
 
-function renderInviteLink() {
-  const code = getUserCode(APP); // always fresh — includes current points/streak
-  const base = location.origin + location.pathname;
-  const link = `${base}?invite=${code}`;
-  document.getElementById('invite-link-display').textContent = link;
-  document.getElementById('invite-link-display').dataset.link = link;
-}
-
-// ─── Drink logging ────────────────────────────────────────────────────────────
-
-function logDrink() {
+// ═══════════════════════════════════════
+// LOG DRINK
+// ═══════════════════════════════════════
+async function logDrink() {
   if (!APP) return;
-  const todayStr = today();
+  const t = todayStr();
   const goal = APP.dailyGoal || 6;
-  const prevCount = APP.drinks[todayStr] || 0;
-
-  // Track drink
-  APP.drinks[todayStr] = prevCount + 1;
-  APP.totalDrinks = (APP.totalDrinks || 0) + 1;
-
-  const newCount = APP.drinks[todayStr];
-  const justMetGoal = newCount === goal;
-  const pts = justMetGoal ? 2 : 1; // bonus point for hitting goal
+  const prev = APP.drinks[t] || 0;
+  APP.drinks[t] = prev + 1;
+  APP.totalDrinks = (APP.totalDrinks||0) + 1;
+  const newC = APP.drinks[t];
+  const justMet = newC === goal;
+  const pts = justMet ? 2 : 1;
   APP.points += pts;
-
-  // Update streak
-  const streak = calcStreak();
-  APP.streak = streak;
-  APP.bestStreak = Math.max(APP.bestStreak || 0, streak);
-
-  setStorage(APP);
-
-  // Show affirmation
-  const aff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
-  showAffirmation(aff, pts, justMetGoal, newCount, goal);
-
-  // Confetti on goal met or points milestone
-  if (justMetGoal || APP.points % 10 === 0) launchConfetti();
-
+  const s = calcStreak();
+  APP.streak = s;
+  APP.bestStreak = Math.max(APP.bestStreak||0, s);
   refreshUI();
+  save().catch(() => showToast('⚠️ Sync failed'));
+  const aff = AFF[Math.floor(Math.random()*AFF.length)];
+  showAff(aff, pts, justMet, newC, goal);
+  if (justMet || APP.points % 10 === 0) launchConfetti();
 }
 
-function showAffirmation(aff, pts, justMetGoal, count, goal) {
-  document.getElementById('aff-emoji').textContent = justMetGoal ? '🏆' : aff.emoji;
-  document.getElementById('aff-points').textContent = `+${pts} point${pts !== 1 ? 's' : ''}!`;
-  document.getElementById('aff-text').textContent = justMetGoal
-    ? `GOAL SMASHED! ${count}/${goal} glasses! 🎯`
-    : aff.text;
-  document.getElementById('aff-sub').textContent = justMetGoal
-    ? `Streak: 🔥 ${calcStreak()} day${calcStreak() !== 1 ? 's' : ''} — you're on fire!`
-    : `${count}/${goal} glasses — ${goal - count > 0 ? (goal - count) + ' to go!' : 'keep it up!'}`;
+function showAff(aff, pts, justMet, count, goal) {
+  const s = calcStreak();
+  document.getElementById('aff-emoji').textContent = justMet ? '🏆' : aff.e;
+  document.getElementById('aff-points').textContent = `+${pts} point${pts!==1?'s':''}!`;
+  document.getElementById('aff-text').textContent = justMet ? `GOAL SMASHED! ${count}/${goal} glasses! 🎯` : aff.t;
+  document.getElementById('aff-sub').textContent = justMet
+    ? `Streak: 🔥 ${plural(s,'day')} — you're on fire!`
+    : `${count}/${goal} — ${goal-count>0?goal-count+' to go!':'keep it up!'}`;
   document.getElementById('affirmation-overlay').classList.add('show');
 }
 
-function closeAffirmation() {
-  document.getElementById('affirmation-overlay').classList.remove('show');
-}
+function closeAffirmation() { document.getElementById('affirmation-overlay').classList.remove('show'); }
 
-// ─── Goal selection ───────────────────────────────────────────────────────────
-
+// ═══════════════════════════════════════
+// GOAL
+// ═══════════════════════════════════════
 function selectGoal(btn) {
-  // Deactivate siblings in same picker
   const picker = btn.closest('.goal-picker');
   picker.querySelectorAll('.goal-opt').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-
-  // If we're in settings, save immediately
   if (picker.id === 'settings-goal-picker' && APP) {
     APP.dailyGoal = parseInt(btn.dataset.val);
-    setStorage(APP);
-    refreshUI();
+    save(); refreshUI();
   }
 }
 
-// ─── Navigation ───────────────────────────────────────────────────────────────
-
+// ═══════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════
 function showTab(name, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-  document.getElementById('tab-' + name).style.display = 'block';
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display='none');
+  document.getElementById('tab-'+name).style.display='block';
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   refreshUI();
-  if (name === 'settings') initNotifUI();
+  if (name==='friends') loadCrew();
+  if (name==='settings') initNotifUI();
 }
 
-// ─── Invite ───────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════
+// INVITE
+// ═══════════════════════════════════════
+function renderInviteLink() {
+  if (!APP) return;
+  const link = `${location.origin}${location.pathname}?invite=${encodeInvite(APP)}`;
+  const el = document.getElementById('invite-link-display');
+  if (el) { el.textContent = link; el.dataset.link = link; }
+}
 
 function copyInviteLink() {
   const link = document.getElementById('invite-link-display').dataset.link;
   navigator.clipboard.writeText(link).then(() => {
     const btn = document.getElementById('copy-btn');
-    btn.textContent = 'Copied!';
+    btn.textContent = 'Copied! ✅';
     setTimeout(() => btn.textContent = 'Copy', 2000);
   });
 }
 
 function shareInvite() {
   const link = document.getElementById('invite-link-display').dataset.link;
-  if (navigator.share) {
-    navigator.share({
-      title: 'Join me on HydroPals! 💧',
-      text: `${APP.name} is inviting you to track your water intake together on HydroPals!`,
-      url: link,
-    });
-  } else {
-    copyInviteLink();
-  }
+  if (navigator.share) navigator.share({ title:'Join HydroPals! 💧', text:`${APP.name} wants you to track water together!`, url: link });
+  else copyInviteLink();
 }
 
-// ─── Notifications ────────────────────────────────────────────────────────────
-
-const SW_CODE = `
-self.addEventListener('message', (e) => {
-  if (e.data.type === 'SCHEDULE') {
-    const { times, name, goal, drinks } = e.data;
-    const msgs = [
-      { title: '💧 Morning Hydration!', body: 'Start your day with a glass of water 🌅' },
-      { title: '💧 Afternoon Check-in!', body: "Don't forget your midday water 🌤️" },
-      { title: '💧 Evening Reminder!', body: 'Almost done for the day! Log your evening drink 🌙' },
-    ];
-    if (self._timers) self._timers.forEach(t => clearTimeout(t));
-    self._timers = [];
-    times.forEach((timeStr, i) => {
-      if (!timeStr) return;
-      const [h, m] = timeStr.split(':').map(Number);
-      const now = new Date();
-      const target = new Date();
-      target.setHours(h, m, 0, 0);
-      if (target <= now) target.setDate(target.getDate() + 1);
-      const delay = target - now;
-      const t = setTimeout(() => {
-        self.registration.showNotification(msgs[i].title, {
-          body: name + '! ' + msgs[i].body,
-          icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>',
-        });
-      }, delay);
-      self._timers.push(t);
-    });
-  }
-});
-`;
-
-let swReg = null;
-
-async function registerSW() {
-  if (!('serviceWorker' in navigator)) return null;
-  try {
-    const blob = new Blob([SW_CODE], { type: 'application/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    swReg = await navigator.serviceWorker.register(swUrl, { scope: '/' });
-    return swReg;
-  } catch(e) {
-    // Blob SW not supported (e.g. Firefox) — fall back to in-page timers
-    return null;
-  }
-}
-
+// ═══════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════
 function initNotifUI() {
   if (!APP) return;
-  const notifOn = APP.notificationsEnabled || false;
   const toggle = document.getElementById('notif-toggle');
-  if (toggle) {
-    toggle.checked = notifOn;
-    document.getElementById('notif-time-section').style.display = notifOn ? 'block' : 'none';
-  }
+  if (!toggle) return;
+  toggle.checked = APP.notificationsEnabled || false;
+  document.getElementById('notif-time-section').style.display = APP.notificationsEnabled ? 'block' : 'none';
   if (APP.notifTimes) {
-    const times = APP.notifTimes;
-    if (times[0]) document.getElementById('notif-time-1').value = times[0];
-    if (times[1]) document.getElementById('notif-time-2').value = times[1];
-    if (times[2]) document.getElementById('notif-time-3').value = times[2];
+    const [t1,t2,t3] = APP.notifTimes;
+    if (t1) document.getElementById('notif-time-1').value = t1;
+    if (t2) document.getElementById('notif-time-2').value = t2;
+    if (t3) document.getElementById('notif-time-3').value = t3;
   }
-  // Show current permission state
-  if ('Notification' in window && Notification.permission === 'denied') {
-    const statusEl = document.getElementById('notif-status');
-    statusEl.style.display = 'block';
-    statusEl.style.color = 'var(--coral)';
-    statusEl.textContent = '❌ Notifications blocked in browser settings. Go to site settings to allow them.';
-    if (toggle) toggle.checked = false;
+  if ('Notification' in window && Notification.permission==='denied') {
+    const s = document.getElementById('notif-status');
+    s.style.display='block'; s.style.color='var(--coral)';
+    s.textContent='❌ Notifications blocked. Click 🔒 in address bar → Allow.';
+    toggle.checked=false;
   }
 }
 
-async function toggleNotifications(checkbox) {
-  const statusEl = document.getElementById('notif-status');
-  const timeSection = document.getElementById('notif-time-section');
-
+async function toggleNotifications(cb) {
+  const st = document.getElementById('notif-status');
+  const ts = document.getElementById('notif-time-section');
   if (!('Notification' in window)) {
-    statusEl.style.display = 'block';
-    statusEl.style.color = 'var(--coral)';
-    statusEl.textContent = '⚠️ Your browser doesn\'t support notifications.';
-    checkbox.checked = false;
-    return;
+    st.style.display='block'; st.style.color='var(--coral)'; st.textContent='⚠️ Browser does not support notifications.'; cb.checked=false; return;
   }
-
-  if (checkbox.checked) {
-    let permission = Notification.permission;
-    if (permission === 'default') {
-      permission = await Notification.requestPermission();
-    }
-    if (permission === 'granted') {
-      APP.notificationsEnabled = true;
-      timeSection.style.display = 'block';
-      statusEl.style.display = 'block';
-      statusEl.style.color = 'var(--mint)';
-      statusEl.textContent = '✅ Reminders on! Keep this tab open for best results.';
+  if (cb.checked) {
+    let p = Notification.permission;
+    if (p==='default') p = await Notification.requestPermission();
+    if (p==='granted') {
+      APP.notificationsEnabled=true; ts.style.display='block';
+      st.style.display='block'; st.style.color='var(--mint)'; st.textContent='✅ Reminders on!';
+      new Notification('💧 HydroPals', { body: `Hey ${APP.name}! Reminders are now active 🎉` });
       saveNotifTimes();
-      // Send a test notification
-      setTimeout(() => {
-        new Notification('💧 HydroPals', { body: `Hey ${APP.name}! Reminders are now active 🎉` });
-      }, 500);
-    } else if (permission === 'denied') {
-      checkbox.checked = false;
-      APP.notificationsEnabled = false;
-      timeSection.style.display = 'none';
-      statusEl.style.display = 'block';
-      statusEl.style.color = 'var(--coral)';
-      statusEl.textContent = '❌ Blocked! Click the 🔒 lock icon in your browser address bar → Site settings → Allow notifications.';
+    } else {
+      cb.checked=false; APP.notificationsEnabled=false; ts.style.display='none';
+      st.style.display='block'; st.style.color='var(--coral)'; st.textContent='❌ Blocked. Go to site settings in your browser → Allow notifications.';
     }
   } else {
-    APP.notificationsEnabled = false;
-    timeSection.style.display = 'none';
-    statusEl.style.display = 'none';
+    APP.notificationsEnabled=false; ts.style.display='none'; st.style.display='none';
   }
-  setStorage(APP);
+  save();
 }
 
 function saveNotifTimes() {
@@ -1742,108 +1080,83 @@ function saveNotifTimes() {
     document.getElementById('notif-time-2').value,
     document.getElementById('notif-time-3').value,
   ];
-  setStorage(APP);
-  scheduleNotifications();
+  save(); scheduleNotifications();
 }
 
 function scheduleNotifications() {
-  if (!APP || !APP.notificationsEnabled || Notification.permission !== 'granted') return;
-  const times = APP.notifTimes || ['09:00', '14:00', '19:00'];
-
-  // Clear old timers
-  if (window._notifTimers) window._notifTimers.forEach(t => clearTimeout(t));
-  window._notifTimers = [];
-
-  const msgs = [
-    { title: '💧 Morning Hydration!', body: `Good morning ${APP.name}! Start your day with water 🌅` },
-    { title: '💧 Afternoon Check-in!', body: `Hey ${APP.name}! Midday water time 🌤️` },
-    { title: '💧 Evening Reminder!', body: `Almost there ${APP.name}! Log your evening drink 🌙` },
+  if (!APP||!APP.notificationsEnabled||!('Notification' in window)||Notification.permission!=='granted') return;
+  const times = APP.notifTimes||['09:00','14:00','19:00'];
+  if (window._nTimers) window._nTimers.forEach(t=>clearTimeout(t));
+  window._nTimers=[];
+  const msgs=[
+    {title:'💧 Morning!',body:`Good morning ${APP.name}! Start your day with water 🌅`},
+    {title:'💧 Afternoon!',body:`Hey ${APP.name}! Midday water time 🌤️`},
+    {title:'💧 Evening!',body:`Almost there ${APP.name}! Log your evening drink 🌙`},
   ];
-
-  times.forEach((timeStr, i) => {
-    if (!timeStr) return;
-    const [h, m] = timeStr.split(':').map(Number);
-    const now = new Date();
-    const target = new Date();
-    target.setHours(h, m, 0, 0);
-    if (target <= now) target.setDate(target.getDate() + 1);
-    const delay = target - now;
-
-    const timer = setTimeout(() => {
-      const todayCount = APP ? (APP.drinks[today()] || 0) : 0;
-      const goal = APP ? (APP.dailyGoal || 6) : 6;
-      if (todayCount < goal) {
-        try {
-          new Notification(msgs[i].title, {
-            body: msgs[i].body + ` (${todayCount}/${goal} glasses so far)`,
-            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💧</text></svg>',
-          });
-        } catch(e) {}
-      }
-      // Reschedule for next day
+  times.forEach((ts,i)=>{
+    if(!ts) return;
+    const [h,m]=ts.split(':').map(Number);
+    const target=new Date(); target.setHours(h,m,0,0);
+    if(target<=new Date()) target.setDate(target.getDate()+1);
+    const timer=setTimeout(()=>{
+      const c=APP?(APP.drinks[todayStr()]||0):0;
+      const g=APP?(APP.dailyGoal||6):6;
+      if(c<g) try{new Notification(msgs[i].title,{body:msgs[i].body+` (${c}/${g} so far)`});}catch(e){}
       scheduleNotifications();
-    }, delay);
-
-    window._notifTimers.push(timer);
+    }, target-new Date());
+    window._nTimers.push(timer);
   });
 }
 
-// ─── Confetti ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(window._tt);
+  window._tt=setTimeout(()=>t.style.opacity='0',3000);
+}
 
+// ═══════════════════════════════════════
+// CONFETTI
+// ═══════════════════════════════════════
 function launchConfetti() {
-  const canvas = document.getElementById('confetti-canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const pieces = Array.from({length: 80}, () => ({
-    x: Math.random() * canvas.width,
-    y: -10,
-    r: Math.random() * 6 + 4,
-    d: Math.random() * 80 + 20,
-    color: ['#38b6ff','#00e5c3','#ffe066','#a8e6ff','#ff6b6b','#7fffea'][Math.floor(Math.random()*6)],
-    tilt: Math.random() * 10 - 5,
-    tiltAngle: 0,
-    tiltSpeed: Math.random() * 0.1 + 0.05,
-    vy: Math.random() * 3 + 2,
-    vx: Math.random() * 2 - 1,
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  const pieces=Array.from({length:80},()=>({
+    x:Math.random()*canvas.width, y:-10,
+    r:Math.random()*6+4,
+    color:['#38b6ff','#00e5c3','#ffe066','#a8e6ff','#ff6b6b','#7fffea'][Math.floor(Math.random()*6)],
+    tilt:Math.random()*10-5, tiltAngle:0, tiltSpeed:Math.random()*0.1+0.05,
+    vy:Math.random()*3+2, vx:Math.random()*2-1,
   }));
-
-  let frame = 0;
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    pieces.forEach(p => {
-      ctx.beginPath();
-      ctx.ellipse(p.x, p.y, p.r, p.r * 0.6, p.tilt, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-      p.y += p.vy;
-      p.x += p.vx;
-      p.tiltAngle += p.tiltSpeed;
-      p.tilt = Math.sin(p.tiltAngle) * 12;
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.beginPath(); ctx.ellipse(p.x,p.y,p.r,p.r*0.6,p.tilt,0,Math.PI*2);
+      ctx.fillStyle=p.color; ctx.fill();
+      p.y+=p.vy; p.x+=p.vx; p.tiltAngle+=p.tiltSpeed; p.tilt=Math.sin(p.tiltAngle)*12;
     });
     frame++;
-    if (frame < 120) requestAnimationFrame(draw);
-    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(frame<120) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
   }
   draw();
 }
 
-// ─── Ambient Bubbles ──────────────────────────────────────────────────────────
-
-function createBubbles() {
-  const container = document.getElementById('bubbles');
-  for (let i = 0; i < 12; i++) {
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    const size = Math.random() * 40 + 10;
-    b.style.cssText = `
-      width: ${size}px; height: ${size}px;
-      left: ${Math.random() * 100}%;
-      animation-duration: ${Math.random() * 15 + 10}s;
-      animation-delay: ${Math.random() * 10}s;
-    `;
-    container.appendChild(b);
+// ═══════════════════════════════════════
+// BUBBLES
+// ═══════════════════════════════════════
+function createBubbles(){
+  const c=document.getElementById('bubbles');
+  for(let i=0;i<12;i++){
+    const b=document.createElement('div'); b.className='bubble';
+    const s=Math.random()*40+10;
+    b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;`;
+    c.appendChild(b);
   }
 }
 </script>
