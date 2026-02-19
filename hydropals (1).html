@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HydroPals 💧</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0a1628;
+    --ocean: #0d3b6e;
+    --wave: #1a6fad;
+    --sky: #38b6ff;
+    --foam: #a8e6ff;
+    --mint: #00e5c3;
+    --sun: #ffe066;
+    --coral: #ff6b6b;
+    --white: #f0faff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--deep);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(26, 111, 173, 0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(0, 229, 195, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, rgba(56, 182, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bubbles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(56, 182, 255, 0.08);
+    border: 1px solid rgba(56, 182, 255, 0.15);
+    animation: floatUp linear infinite;
+    bottom: -100px;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 30px 0 20px;
+  }
+
+  .logo {
+    font-family: 'Righteous', cursive;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, var(--sky), var(--mint));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+  }
+
+  .tagline {
+    color: var(--foam);
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Screen management */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Name setup */
+  .setup-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(56, 182, 255, 0.2);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    margin-top: 20px;
+  }
+
+  .setup-card h2 {
+    font-family: 'Righteous', cursive;
+    font-size: 1.6rem;
+    color: var(--sky);
+    margin-bottom: 8px;
+  }
+
+  .setup-card p { color: var(--foam); opacity: 0.8; margin-bottom: 24px; }
+
+  input[type="text"] {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(56, 182, 255, 0.3);
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    font-family: 'Nunito', sans-serif;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.3s;
+    margin-bottom: 16px;
+  }
+
+  input[type="text"]::placeholder { color: rgba(168, 230, 255, 0.4); }
+  input[type="text"]:focus { border-color: var(--sky); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn:active { transform: scale(0.96); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--sky), var(--mint));
+    color: var(--deep);
+    width: 100%;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover { box-shadow: 0 8px 30px rgba(56, 182, 255, 0.4); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid rgba(56, 182, 255, 0.4);
+    color: var(--sky);
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+
+  .btn-outline:hover { border-color: var(--sky); background: rgba(56, 182, 255, 0.1); }
+
+  .btn-ghost {
+    background: rgba(255,255,255,0.06);
+    color: var(--foam);
+    font-size: 0.85rem;
+    padding: 10px 18px;
+  }
+
+  /* Goal picker */
+  .goal-picker {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .goal-opt {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(56,182,255,0.3);
+    background: rgba(255,255,255,0.05);
+    color: var(--foam);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .goal-opt:hover { border-color: var(--sky); color: var(--sky); }
+
+  .goal-opt.active {
+    background: linear-gradient(135deg, var(--sky), var(--mint));
+    border-color: transparent;
+    color: var(--deep);
+    box-shadow: 0 4px 14px rgba(56,182,255,0.35);
+  }
+
+  /* Progress ring */
+  .progress-ring-wrap {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .progress-ring-svg {
+    position: absolute;
+    top: 0; left: 0;
+    transform: rotate(-90deg);
+  }
+
+  .progress-ring-track {
+    fill: none;
+    stroke: rgba(56,182,255,0.12);
+    stroke-width: 6;
+  }
+
+  .progress-ring-fill {
+    fill: none;
+    stroke: url(#ringGrad);
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+
+  .progress-ring-fill.goal-done {
+    stroke: url(#ringGradDone);
+  }
+
+  /* Goal change in settings */
+  .goal-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .goal-label { font-size:0.85rem; color: var(--foam); opacity:0.8; }
+  .goal-value { font-size:1.1rem; font-weight:800; color:var(--sky); }
+
+  /* Main dashboard */
+  .user-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .user-greeting { font-size: 0.9rem; color: var(--foam); opacity: 0.7; }
+  .user-name { font-size: 1.2rem; font-weight: 800; color: var(--white); }
+
+  .points-badge {
+    background: linear-gradient(135deg, var(--sun), #ffb347);
+    color: var(--deep);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Big drink button */
+  .drink-section {
+    text-align: center;
+    margin: 10px 0 24px;
+  }
+
+  .drink-btn-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .drink-btn {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(145deg, var(--wave), var(--sky));
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 0 rgba(56, 182, 255, 0.4), 0 20px 60px rgba(26, 111, 173, 0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drink-btn::before {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    right: -20px;
+    height: 60px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    animation: waveAnim 2s ease-in-out infinite;
+  }
+
+  @keyframes waveAnim {
+    0%, 100% { transform: translateY(0) scaleX(1); }
+    50% { transform: translateY(-8px) scaleX(1.05); }
+  }
+
+  .drink-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 16px rgba(56, 182, 255, 0.12), 0 20px 60px rgba(26, 111, 173, 0.6);
+  }
+
+  .drink-btn:active { transform: scale(0.95); }
+
+  .drink-btn.checked-today {
+    background: linear-gradient(145deg, #1a7a5e, var(--mint));
+  }
+
+  .drink-btn-icon { font-size: 3.5rem; line-height: 1; }
+  .drink-btn-label {
+    font-family: 'Righteous', cursive;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-top: 6px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .drink-status {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: var(--foam);
+    opacity: 0.7;
+    min-height: 24px;
+  }
+
+  /* Streak */
+  .streak-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 6px;
+  }
+
+  .streak-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 2px solid rgba(56, 182, 255, 0.2);
+    color: rgba(255,255,255,0.3);
+    transition: all 0.3s;
+  }
+
+  .streak-dot.filled {
+    background: linear-gradient(135deg, var(--sky), var(--mint));
+    border-color: transparent;
+    color: var(--deep);
+    box-shadow: 0 4px 12px rgba(56, 182, 255, 0.35);
+  }
+
+  .streak-dot.today-dot {
+    border-color: var(--sky);
+    color: var(--sky);
+  }
+
+  /* Stats card */
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(56, 182, 255, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
+  }
+
+  .card-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--sky);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  /* Weekly chart */
+  .week-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 80px;
+    justify-content: space-between;
+  }
+
+  .day-bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .day-bar {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    background: rgba(56, 182, 255, 0.15);
+    min-height: 4px;
+    transition: height 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-bar.has-data {
+    background: linear-gradient(to top, var(--wave), var(--sky));
+    box-shadow: 0 0 10px rgba(56, 182, 255, 0.3);
+  }
+
+  .day-bar.today-bar { background: linear-gradient(to top, var(--mint), #7fffea); }
+
+  .day-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .day-label.today-label { color: var(--mint); }
+
+  /* Friends */
+  .friends-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .friend-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(56, 182, 255, 0.1);
+  }
+
+  .friend-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ocean), var(--wave));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border: 2px solid rgba(56,182,255,0.3);
+    flex-shrink: 0;
+  }
+
+  .friend-name { font-weight: 700; font-size: 0.95rem; flex: 1; }
+  .friend-pts {
+    font-size: 0.8rem;
+    color: var(--sun);
+    font-weight: 700;
+  }
+  .friend-streak { font-size: 0.75rem; color: var(--foam); opacity: 0.6; }
+  .friend-checked { font-size: 1.1rem; }
+
+  .empty-friends {
+    text-align: center;
+    padding: 20px;
+    color: var(--foam);
+    opacity: 0.5;
+    font-size: 0.9rem;
+  }
+
+  /* Invite */
+  .invite-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .invite-link-box {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(56, 182, 255, 0.2);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    color: var(--foam);
+    word-break: break-all;
+    font-family: monospace;
+    user-select: all;
+    cursor: text;
+  }
+
+  .btn-copy {
+    background: rgba(56, 182, 255, 0.15);
+    border: 1px solid rgba(56, 182, 255, 0.3);
+    border-radius: 12px;
+    color: var(--sky);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-copy:hover { background: rgba(56, 182, 255, 0.25); }
+  .btn-copy:active { transform: scale(0.95); }
+
+  /* Affirmation popup */
+  .affirmation-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 22, 40, 0.85);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(4px);
+  }
+
+  .affirmation-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .affirmation-card {
+    background: linear-gradient(145deg, var(--ocean), #0a2440);
+    border: 1px solid rgba(56, 182, 255, 0.4);
+    border-radius: 28px;
+    padding: 40px 28px;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+
+  .affirmation-overlay.show .affirmation-card { transform: scale(1); }
+
+  .affirmation-emoji { font-size: 4rem; margin-bottom: 16px; display: block; animation: bounce 0.6s ease 0.3s both; }
+
+  @keyframes bounce {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .affirmation-points {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--sun), #ffb347);
+    color: var(--deep);
+    border-radius: 50px;
+    padding: 4px 16px;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+
+  .affirmation-text {
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1.4;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .affirmation-sub {
+    font-size: 0.9rem;
+    color: var(--foam);
+    opacity: 0.7;
+    margin-bottom: 28px;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 22, 40, 0.95);
+    border-top: 1px solid rgba(56, 182, 255, 0.15);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 16px;
+    z-index: 50;
+    backdrop-filter: blur(16px);
+  }
+
+  .nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(168, 230, 255, 0.4);
+    transition: color 0.2s;
+    font-family: 'Nunito', sans-serif;
+    padding: 4px 16px;
+  }
+
+  .nav-btn.active { color: var(--sky); }
+  .nav-btn-icon { font-size: 1.4rem; }
+  .nav-btn-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* Sections within main screen */
+  .section { margin-bottom: 20px; }
+
+  /* Confetti canvas */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+  }
+
+  /* Join screen */
+  .join-info {
+    background: rgba(56, 182, 255, 0.1);
+    border: 1px solid rgba(56, 182, 255, 0.2);
+    border-radius: 14px;
+    padding: 14px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .join-inviter { font-size: 1.1rem; font-weight: 800; color: var(--sky); }
+
+  /* Responsive */
+  @media (max-width: 360px) {
+    .drink-btn { width: 150px; height: 150px; }
+    .logo { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bubbles" id="bubbles"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="container">
+  <header>
+    <div class="logo">💧 HydroPals</div>
+    <div class="tagline">Drink together. Stay legendary.</div>
+  </header>
+
+  <!-- SETUP SCREEN -->
+  <div class="screen active" id="screen-setup">
+    <div class="setup-card">
+      <h2>Welcome, friend! 👋</h2>
+      <p>What should we call you?</p>
+      <input type="text" id="setup-name" placeholder="Your name..." maxlength="24" />
+      <p style="margin-bottom:10px;margin-top:-8px">Daily water goal:</p>
+      <div class="goal-picker" id="setup-goal-picker">
+        <button class="goal-opt" data-val="4" onclick="selectGoal(this)">4</button>
+        <button class="goal-opt active" data-val="6" onclick="selectGoal(this)">6</button>
+        <button class="goal-opt" data-val="8" onclick="selectGoal(this)">8</button>
+        <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
+        <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
+      </div>
+      <div style="font-size:0.78rem;color:var(--foam);opacity:0.6;margin-bottom:20px;margin-top:-4px">glasses per day</div>
+      <button class="btn btn-primary" onclick="setupUser()">
+        💧 Start Hydrating
+      </button>
+    </div>
+  </div>
+
+  <!-- JOIN SCREEN (when invited) -->
+  <div class="screen" id="screen-join">
+    <div class="setup-card">
+      <span style="font-size:3rem">🤝</span>
+      <h2 style="margin-top:12px">You're invited!</h2>
+      <div class="join-info">
+        <div id="join-inviter-name" class="join-inviter"></div>
+        <div style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-top:4px">wants you to join their hydration crew</div>
+      </div>
+      <p style="margin-bottom:20px">Enter your name to join and start earning points together!</p>
+      <input type="text" id="join-name" placeholder="Your name..." maxlength="24" />
+      <p style="margin-bottom:10px;margin-top:-8px">Daily water goal:</p>
+      <div class="goal-picker" id="join-goal-picker">
+        <button class="goal-opt" data-val="4" onclick="selectGoal(this)">4</button>
+        <button class="goal-opt active" data-val="6" onclick="selectGoal(this)">6</button>
+        <button class="goal-opt" data-val="8" onclick="selectGoal(this)">8</button>
+        <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
+        <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
+      </div>
+      <div style="font-size:0.78rem;color:var(--foam);opacity:0.6;margin-bottom:20px;margin-top:-4px">glasses per day</div>
+      <button class="btn btn-primary" onclick="joinUser()">
+        💧 Join the Crew
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN SCREEN -->
+  <div class="screen" id="screen-main">
+    <!-- Dashboard tab -->
+    <div id="tab-home" class="tab-content">
+      <div class="user-bar">
+        <div>
+          <div class="user-greeting">Hey there,</div>
+          <div class="user-name" id="display-name">–</div>
+        </div>
+        <div class="points-badge">⭐ <span id="display-points">0</span> pts</div>
+      </div>
+
+      <!-- Streak -->
+      <div class="card section">
+        <div class="card-title">🔥 Weekly Streak</div>
+        <div class="streak-row" id="streak-row"></div>
+        <div style="text-align:center;margin-top:10px;font-size:0.85rem;color:var(--foam);opacity:0.65" id="streak-label"></div>
+      </div>
+
+      <!-- Drink button -->
+      <div class="drink-section">
+        <div class="progress-ring-wrap">
+          <svg class="progress-ring-svg" width="180" height="180" viewBox="0 0 180 180">
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#38b6ff"/>
+                <stop offset="100%" style="stop-color:#00e5c3"/>
+              </linearGradient>
+              <linearGradient id="ringGradDone" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00e5c3"/>
+                <stop offset="100%" style="stop-color:#ffe066"/>
+              </linearGradient>
+            </defs>
+            <circle class="progress-ring-track" cx="90" cy="90" r="84"/>
+            <circle class="progress-ring-fill" id="progress-ring-fill" cx="90" cy="90" r="84"
+              stroke-dasharray="527.8"
+              stroke-dashoffset="527.8"/>
+          </svg>
+          <button class="drink-btn" id="drink-btn" onclick="logDrink()">
+            <span class="drink-btn-icon" id="drink-btn-icon">💧</span>
+            <span class="drink-btn-label" id="drink-btn-label">LOG DRINK</span>
+          </button>
+        </div>
+        <div class="drink-status" id="drink-status"></div>
+        <div style="margin-top:6px;font-size:0.8rem;color:var(--foam);opacity:0.5" id="goal-hint"></div>
+      </div>
+    </div>
+
+    <!-- Stats tab -->
+    <div id="tab-stats" class="tab-content" style="display:none">
+      <div class="card section">
+        <div class="card-title">📊 This Week</div>
+        <div class="week-chart" id="week-chart"></div>
+      </div>
+      <div class="card section">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <div>
+            <div style="font-size:0.75rem;color:var(--sky);text-transform:uppercase;letter-spacing:1px;font-weight:700">Total Points</div>
+            <div style="font-size:2rem;font-weight:800;color:var(--sun)" id="stat-total-pts">0</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:0.75rem;color:var(--sky);text-transform:uppercase;letter-spacing:1px;font-weight:700">Total Drinks</div>
+            <div style="font-size:2rem;font-weight:800;color:var(--mint)" id="stat-total-drinks">0</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid rgba(56,182,255,0.1)">
+          <div>
+            <div style="font-size:0.75rem;color:var(--sky);text-transform:uppercase;letter-spacing:1px;font-weight:700">Best Streak</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--coral)" id="stat-best-streak">0 days</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:0.75rem;color:var(--sky);text-transform:uppercase;letter-spacing:1px;font-weight:700">Current Streak</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--foam)" id="stat-cur-streak">0 days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Friends tab -->
+    <div id="tab-friends" class="tab-content" style="display:none">
+      <div class="card section">
+        <div class="card-title">🏆 Crew Leaderboard</div>
+        <div class="friends-list" id="friends-list">
+          <div class="empty-friends">No friends yet — invite someone!</div>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="card-title">📨 Invite a Friend</div>
+        <p style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-bottom:12px">Share your unique link — when they join, they'll automatically be in your crew!</p>
+        <div class="invite-row">
+          <div class="invite-link-box" id="invite-link-display">Generating...</div>
+          <button class="btn-copy" id="copy-btn" onclick="copyInviteLink()">Copy</button>
+        </div>
+        <button class="btn btn-outline" style="width:100%;margin-top:10px" onclick="shareInvite()">📤 Share</button>
+      </div>
+    </div>
+
+    <!-- Settings tab -->
+    <div id="tab-settings" class="tab-content" style="display:none">
+      <div class="card section">
+        <div class="card-title">🎯 Daily Goal</div>
+        <div class="goal-row">
+          <div class="goal-label">Target glasses per day</div>
+          <div class="goal-value" id="settings-goal-val">8</div>
+        </div>
+        <div class="goal-picker" id="settings-goal-picker" style="justify-content:flex-start;margin-top:12px">
+          <button class="goal-opt" data-val="4" onclick="selectGoal(this)">4</button>
+          <button class="goal-opt" data-val="6" onclick="selectGoal(this)">6</button>
+          <button class="goal-opt" data-val="8" onclick="selectGoal(this)">8</button>
+          <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
+          <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
+        </div>
+        <div style="font-size:0.8rem;color:var(--foam);opacity:0.6;margin-top:8px">Your streak counts when you hit your daily goal ✅</div>
+      </div>
+      <div class="card section">
+        <div class="card-title">👤 Profile</div>
+        <div style="font-size:0.9rem;color:var(--foam);opacity:0.7">Logged in as</div>
+        <div style="font-size:1.2rem;font-weight:800;margin-top:2px" id="settings-name-display"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="nav" id="main-nav" style="display:none">
+  <button class="nav-btn active" onclick="showTab('home', this)">
+    <span class="nav-btn-icon">💧</span>
+    <span class="nav-btn-label">Home</span>
+  </button>
+  <button class="nav-btn" onclick="showTab('stats', this)">
+    <span class="nav-btn-icon">📊</span>
+    <span class="nav-btn-label">Stats</span>
+  </button>
+  <button class="nav-btn" onclick="showTab('friends', this)">
+    <span class="nav-btn-icon">👥</span>
+    <span class="nav-btn-label">Crew</span>
+  </button>
+  <button class="nav-btn" onclick="showTab('settings', this)">
+    <span class="nav-btn-icon">⚙️</span>
+    <span class="nav-btn-label">Goals</span>
+  </button>
+</nav>
+
+<!-- Affirmation Overlay -->
+<div class="affirmation-overlay" id="affirmation-overlay" onclick="closeAffirmation()">
+  <div class="affirmation-card" onclick="event.stopPropagation()">
+    <span class="affirmation-emoji" id="aff-emoji">💧</span>
+    <div class="affirmation-points" id="aff-points">+1 point!</div>
+    <div class="affirmation-text" id="aff-text">Stay hydrated!</div>
+    <div class="affirmation-sub" id="aff-sub">Keep it up!</div>
+    <button class="btn btn-primary" onclick="closeAffirmation()" style="max-width:200px">Awesome! 🎉</button>
+  </div>
+</div>
+
+<script>
+// ─── Data Layer ─────────────────────────────────────────────────────────────
+
+const AFFIRMATIONS = [
+  { emoji: '💧', text: "You're absolutely crushing it!", sub: "Your body is glowing with gratitude." },
+  { emoji: '🌊', text: "Wave after wave of greatness!", sub: "Hydration is your superpower." },
+  { emoji: '✨', text: "Sparkling from the inside out!", sub: "You make drinking water look cool." },
+  { emoji: '🐳', text: "Big splash energy today!", sub: "Ocean-level dedication right here." },
+  { emoji: '🌿', text: "Growing stronger every sip!", sub: "Plants respect you. Deeply." },
+  { emoji: '🏆', text: "A hydration champion is born!", sub: "Future you says: THANK YOU." },
+  { emoji: '⚡', text: "Electrically hydrated!", sub: "You're practically glowing." },
+  { emoji: '🎯', text: "Bullseye on that H₂O!", sub: "Precision hydration. Respect." },
+  { emoji: '🌟', text: "You absolute STAR!", sub: "Even stars need water. Probably." },
+  { emoji: '🦈', text: "Shark mode: ACTIVATED!", sub: "Always moving, always hydrated." },
+  { emoji: '🍀', text: "Lucky to have you hydrating!", sub: "Today just got a whole lot better." },
+  { emoji: '🚀', text: "To the moon and hydrated!", sub: "Your body thanks you for fueling up." },
+];
+
+function getStorage() {
+  try { return JSON.parse(localStorage.getItem('hydropals') || 'null'); }
+  catch { return null; }
+}
+
+function setStorage(data) {
+  localStorage.setItem('hydropals', JSON.stringify(data));
+}
+
+function today() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function initUser(name, inviterCode, dailyGoal) {
+  const userId = Math.random().toString(36).slice(2, 10);
+  const data = {
+    userId,
+    name,
+    points: 0,
+    totalDrinks: 0,
+    drinks: {}, // { 'YYYY-MM-DD': count }
+    streak: 0,
+    bestStreak: 0,
+    dailyGoal: dailyGoal || 6,
+    friends: [], // [{userId, name, points, totalDrinks, drinks, streak, lastSeen}]
+    inviterCode: inviterCode || null,
+    joinedAt: Date.now(),
+  };
+  setStorage(data);
+  return data;
+}
+
+function getUserCode(data) {
+  return btoa(JSON.stringify({ userId: data.userId, name: data.name }));
+}
+
+function parseCode(code) {
+  try { return JSON.parse(atob(code)); }
+  catch { return null; }
+}
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+
+let APP = null;
+
+window.addEventListener('load', () => {
+  createBubbles();
+  
+  const params = new URLSearchParams(location.search);
+  const inviteCode = params.get('invite');
+  
+  APP = getStorage();
+
+  if (APP) {
+    // Already have an account
+    if (inviteCode) {
+      // Accept new friend
+      addFriendFromCode(inviteCode);
+    }
+    showMain();
+  } else if (inviteCode) {
+    // New user joining via invite
+    const inviter = parseCode(inviteCode);
+    if (inviter) {
+      document.getElementById('join-inviter-name').textContent = inviter.name;
+      document.getElementById('join-name').value = '';
+      showScreen('join');
+      document.getElementById('screen-join').dataset.inviteCode = inviteCode;
+    } else {
+      showScreen('setup');
+    }
+  } else {
+    showScreen('setup');
+  }
+});
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+
+// ─── Setup ───────────────────────────────────────────────────────────────────
+
+function setupUser() {
+  const name = document.getElementById('setup-name').value.trim();
+  if (!name) { document.getElementById('setup-name').focus(); return; }
+  const goalBtn = document.querySelector('#setup-goal-picker .goal-opt.active');
+  const goal = goalBtn ? parseInt(goalBtn.dataset.val) : 6;
+  APP = initUser(name, null, goal);
+  setStorage(APP);
+  showMain();
+}
+
+function joinUser() {
+  const name = document.getElementById('join-name').value.trim();
+  if (!name) { document.getElementById('join-name').focus(); return; }
+  const goalBtn = document.querySelector('#join-goal-picker .goal-opt.active');
+  const goal = goalBtn ? parseInt(goalBtn.dataset.val) : 6;
+  const inviteCode = document.getElementById('screen-join').dataset.inviteCode;
+  APP = initUser(name, inviteCode, goal);
+  // Add the inviter as a friend
+  addFriendFromCode(inviteCode, true);
+  showMain();
+}
+
+function addFriendFromCode(code, skipSave) {
+  const info = parseCode(code);
+  if (!info || !APP) return;
+  if (info.userId === APP.userId) return;
+  if (APP.friends.find(f => f.userId === info.userId)) return;
+  APP.friends.push({
+    userId: info.userId,
+    name: info.name,
+    points: 0,
+    totalDrinks: 0,
+    drinks: {},
+    streak: 0,
+    lastSeen: Date.now(),
+  });
+  if (!skipSave) setStorage(APP);
+}
+
+// ─── Main UI ─────────────────────────────────────────────────────────────────
+
+function showMain() {
+  showScreen('main');
+  document.getElementById('main-nav').style.display = 'flex';
+  refreshUI();
+  // Clean URL
+  if (location.search) history.replaceState({}, '', location.pathname);
+}
+
+function refreshUI() {
+  if (!APP) return;
+  const todayStr = today();
+
+  // Name & points
+  document.getElementById('display-name').textContent = APP.name;
+  document.getElementById('display-points').textContent = APP.points;
+
+  // Checked today?
+  const todayCount = APP.drinks[todayStr] || 0;
+  const goal = APP.dailyGoal || 6;
+  const goalMet = todayCount >= goal;
+  const drinkBtn = document.getElementById('drink-btn');
+  const drinkBtnLabel = document.getElementById('drink-btn-label');
+  const drinkStatus = document.getElementById('drink-status');
+  const goalHint = document.getElementById('goal-hint');
+
+  // Progress ring
+  const ring = document.getElementById('progress-ring-fill');
+  const circumference = 527.8;
+  const pct = Math.min(todayCount / goal, 1);
+  ring.style.strokeDashoffset = circumference - pct * circumference;
+  ring.classList.toggle('goal-done', goalMet);
+
+  if (goalMet) {
+    drinkBtn.classList.add('checked-today');
+    document.getElementById('drink-btn-icon').textContent = '✅';
+    drinkBtnLabel.textContent = 'GOAL MET!';
+    drinkStatus.textContent = `${todayCount} / ${goal} glasses today 🎉`;
+    goalHint.textContent = 'Tap again to log more';
+  } else {
+    drinkBtn.classList.remove('checked-today');
+    document.getElementById('drink-btn-icon').textContent = '💧';
+    drinkBtnLabel.textContent = 'LOG DRINK';
+    drinkStatus.textContent = `${todayCount} / ${goal} glasses today`;
+    goalHint.textContent = `${goal - todayCount} more to hit your goal!`;
+  }
+
+  // Settings tab
+  const settingsGoalVal = document.getElementById('settings-goal-val');
+  if (settingsGoalVal) settingsGoalVal.textContent = goal;
+  const settingsName = document.getElementById('settings-name-display');
+  if (settingsName) settingsName.textContent = APP.name;
+  // Sync active button in settings picker
+  document.querySelectorAll('#settings-goal-picker .goal-opt').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.val) === goal);
+  });
+
+  // Streak dots
+  renderStreak();
+  renderWeekChart();
+  renderStats();
+  renderFriends();
+  renderInviteLink();
+}
+
+function renderStreak() {
+  const days = ['S','M','T','W','T','F','S'];
+  const now = new Date();
+  const todayStr = today();
+  const row = document.getElementById('streak-row');
+  row.innerHTML = '';
+
+  // Get last 7 days
+  const last7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    last7.push(d.toISOString().slice(0,10));
+  }
+
+  last7.forEach(dateStr => {
+    const d = new Date(dateStr);
+    const dayName = days[d.getDay()];
+    const dot = document.createElement('div');
+    const goal = APP.dailyGoal || 6;
+    const count = APP.drinks[dateStr] || 0;
+    const hasDrink = count >= goal;
+    const isToday = dateStr === todayStr;
+    dot.className = 'streak-dot' + (hasDrink ? ' filled' : '') + (isToday && !hasDrink ? ' today-dot' : '');
+    dot.textContent = dayName;
+    row.appendChild(dot);
+  });
+
+  // Calculate current streak
+  const streak = calcStreak();
+  document.getElementById('streak-label').textContent = streak > 0 ? `🔥 ${streak} day streak — keep going!` : 'Log your first drink to start your streak!';
+}
+
+function calcStreak() {
+  const now = new Date();
+  const goal = APP.dailyGoal || 6;
+  let streak = 0;
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0,10);
+    if ((APP.drinks[ds] || 0) >= goal) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function renderWeekChart() {
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const now = new Date();
+  const todayStr = today();
+  const chart = document.getElementById('week-chart');
+  chart.innerHTML = '';
+
+  const last7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    last7.push(d.toISOString().slice(0,10));
+  }
+
+  const max = Math.max(1, ...last7.map(d => APP.drinks[d] || 0));
+
+  last7.forEach(dateStr => {
+    const d = new Date(dateStr);
+    const count = APP.drinks[dateStr] || 0;
+    const isToday = dateStr === todayStr;
+    const pct = count / max;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'day-bar-wrap';
+
+    const bar = document.createElement('div');
+    bar.className = 'day-bar' + (count > 0 ? (isToday ? ' today-bar' : ' has-data') : '');
+    bar.style.height = (pct * 70 + (count > 0 ? 6 : 4)) + 'px';
+
+    const label = document.createElement('div');
+    label.className = 'day-label' + (isToday ? ' today-label' : '');
+    label.textContent = days[d.getDay()].charAt(0);
+
+    wrap.appendChild(bar);
+    wrap.appendChild(label);
+    chart.appendChild(wrap);
+  });
+}
+
+function renderStats() {
+  document.getElementById('stat-total-pts').textContent = APP.points;
+  document.getElementById('stat-total-drinks').textContent = APP.totalDrinks || 0;
+  const cur = calcStreak();
+  const best = Math.max(APP.bestStreak || 0, cur);
+  APP.bestStreak = best;
+  document.getElementById('stat-best-streak').textContent = best + ' day' + (best !== 1 ? 's' : '');
+  document.getElementById('stat-cur-streak').textContent = cur + ' day' + (cur !== 1 ? 's' : '');
+}
+
+function renderFriends() {
+  const list = document.getElementById('friends-list');
+  const todayStr = today();
+
+  // Combine self + friends for leaderboard
+  const all = [
+    { name: APP.name + ' (you)', points: APP.points, streak: calcStreak(), checkedToday: !!(APP.drinks[todayStr]), isMe: true },
+    ...APP.friends.map(f => ({
+      name: f.name,
+      points: f.points,
+      streak: f.streak || 0,
+      checkedToday: !!(f.drinks && f.drinks[todayStr]),
+      isMe: false
+    }))
+  ].sort((a, b) => b.points - a.points);
+
+  if (all.length <= 1) {
+    list.innerHTML = '<div class="empty-friends">Invite a friend to start competing! 👆</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  const emojis = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+  all.forEach((f, i) => {
+    const row = document.createElement('div');
+    row.className = 'friend-row';
+    if (f.isMe) row.style.borderColor = 'rgba(56,182,255,0.35)';
+    row.innerHTML = `
+      <div class="friend-avatar">${emojis[i] || '💧'}</div>
+      <div style="flex:1">
+        <div class="friend-name">${f.name}</div>
+        <div class="friend-streak">🔥 ${f.streak} day streak</div>
+      </div>
+      <div style="text-align:right">
+        <div class="friend-pts">⭐ ${f.points}</div>
+        <div style="font-size:0.8rem;margin-top:2px">${f.checkedToday ? '✅ today' : '⏳ pending'}</div>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function renderInviteLink() {
+  const code = getUserCode(APP);
+  const base = location.origin + location.pathname;
+  const link = `${base}?invite=${code}`;
+  document.getElementById('invite-link-display').textContent = link;
+  document.getElementById('invite-link-display').dataset.link = link;
+}
+
+// ─── Drink logging ────────────────────────────────────────────────────────────
+
+function logDrink() {
+  if (!APP) return;
+  const todayStr = today();
+  const goal = APP.dailyGoal || 6;
+  const prevCount = APP.drinks[todayStr] || 0;
+
+  // Track drink
+  APP.drinks[todayStr] = prevCount + 1;
+  APP.totalDrinks = (APP.totalDrinks || 0) + 1;
+
+  const newCount = APP.drinks[todayStr];
+  const justMetGoal = newCount === goal;
+  const pts = justMetGoal ? 2 : 1; // bonus point for hitting goal
+  APP.points += pts;
+
+  // Update streak
+  const streak = calcStreak();
+  APP.streak = streak;
+  APP.bestStreak = Math.max(APP.bestStreak || 0, streak);
+
+  setStorage(APP);
+
+  // Show affirmation
+  const aff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+  showAffirmation(aff, pts, justMetGoal, newCount, goal);
+
+  // Confetti on goal met or points milestone
+  if (justMetGoal || APP.points % 10 === 0) launchConfetti();
+
+  refreshUI();
+}
+
+function showAffirmation(aff, pts, justMetGoal, count, goal) {
+  document.getElementById('aff-emoji').textContent = justMetGoal ? '🏆' : aff.emoji;
+  document.getElementById('aff-points').textContent = `+${pts} point${pts !== 1 ? 's' : ''}!`;
+  document.getElementById('aff-text').textContent = justMetGoal
+    ? `GOAL SMASHED! ${count}/${goal} glasses! 🎯`
+    : aff.text;
+  document.getElementById('aff-sub').textContent = justMetGoal
+    ? `Streak: 🔥 ${calcStreak()} days — you're on fire!`
+    : `${count}/${goal} glasses — ${goal - count > 0 ? (goal - count) + ' to go!' : 'keep it up!'}`;
+  document.getElementById('affirmation-overlay').classList.add('show');
+}
+
+function closeAffirmation() {
+  document.getElementById('affirmation-overlay').classList.remove('show');
+}
+
+// ─── Goal selection ───────────────────────────────────────────────────────────
+
+function selectGoal(btn) {
+  // Deactivate siblings in same picker
+  const picker = btn.closest('.goal-picker');
+  picker.querySelectorAll('.goal-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // If we're in settings, save immediately
+  if (picker.id === 'settings-goal-picker' && APP) {
+    APP.dailyGoal = parseInt(btn.dataset.val);
+    setStorage(APP);
+    refreshUI();
+  }
+}
+
+// ─── Navigation ───────────────────────────────────────────────────────────────
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.getElementById('tab-' + name).style.display = 'block';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  refreshUI();
+}
+
+// ─── Invite ───────────────────────────────────────────────────────────────────
+
+function copyInviteLink() {
+  const link = document.getElementById('invite-link-display').dataset.link;
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+function shareInvite() {
+  const link = document.getElementById('invite-link-display').dataset.link;
+  if (navigator.share) {
+    navigator.share({
+      title: 'Join me on HydroPals! 💧',
+      text: `${APP.name} is inviting you to track your water intake together on HydroPals!`,
+      url: link,
+    });
+  } else {
+    copyInviteLink();
+  }
+}
+
+// ─── Confetti ─────────────────────────────────────────────────────────────────
+
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = Array.from({length: 80}, () => ({
+    x: Math.random() * canvas.width,
+    y: -10,
+    r: Math.random() * 6 + 4,
+    d: Math.random() * 80 + 20,
+    color: ['#38b6ff','#00e5c3','#ffe066','#a8e6ff','#ff6b6b','#7fffea'][Math.floor(Math.random()*6)],
+    tilt: Math.random() * 10 - 5,
+    tiltAngle: 0,
+    tiltSpeed: Math.random() * 0.1 + 0.05,
+    vy: Math.random() * 3 + 2,
+    vx: Math.random() * 2 - 1,
+  }));
+
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.beginPath();
+      ctx.ellipse(p.x, p.y, p.r, p.r * 0.6, p.tilt, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      p.y += p.vy;
+      p.x += p.vx;
+      p.tiltAngle += p.tiltSpeed;
+      p.tilt = Math.sin(p.tiltAngle) * 12;
+    });
+    frame++;
+    if (frame < 120) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  draw();
+}
+
+// ─── Ambient Bubbles ──────────────────────────────────────────────────────────
+
+function createBubbles() {
+  const container = document.getElementById('bubbles');
+  for (let i = 0; i < 12; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = Math.random() * 40 + 10;
+    b.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${Math.random() * 100}%;
+      animation-duration: ${Math.random() * 15 + 10}s;
+      animation-delay: ${Math.random() * 10}s;
+    `;
+    container.appendChild(b);
+  }
+}
+</script>
+</body>
+</html>
