@@ -47,24 +47,110 @@
     border: 1px solid rgba(56,182,255,0.15);
     animation: floatUp linear infinite; bottom: -100px;
   }
-
   @keyframes floatUp {
     0% { transform: translateY(0) scale(1); opacity: 0; }
     10% { opacity: 1; } 90% { opacity: 0.5; }
     100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
   }
 
+  /* ── SPLASH ── */
+  #splash {
+    position: fixed; inset: 0; z-index: 500;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--deep);
+    transition: opacity 0.7s ease;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #splash.hidden { opacity: 0; pointer-events: none; }
+
+  .splash-logo {
+    font-family: 'Righteous', cursive;
+    font-size: 3.2rem;
+    background: linear-gradient(135deg, var(--sky), var(--mint));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    letter-spacing: 3px;
+    animation: splashPop 0.8s cubic-bezier(0.175,0.885,0.32,1.275) both;
+  }
+
+  @keyframes splashPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .splash-drop {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    animation: dropBounce 1s cubic-bezier(0.175,0.885,0.32,1.275) 0.1s both;
+  }
+
+  @keyframes dropBounce {
+    0% { transform: translateY(-60px) scale(0.5); opacity: 0; }
+    70% { transform: translateY(8px) scale(1.1); }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .splash-tagline {
+    font-size: 1rem;
+    color: var(--foam);
+    opacity: 0.75;
+    margin-top: 10px;
+    text-align: center;
+    max-width: 260px;
+    line-height: 1.6;
+    animation: fadeUp 0.7s ease 0.5s both;
+  }
+
+  .splash-tap {
+    margin-top: 56px;
+    font-size: 0.82rem;
+    color: var(--sky);
+    opacity: 0.6;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    animation: tapPulse 1.6s ease-in-out 1s infinite;
+  }
+
+  @keyframes tapPulse {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 0.9; transform: translateY(-4px); }
+  }
+
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 0.75; transform: translateY(0); }
+  }
+
+  /* wave decoration on splash */
+  .splash-wave {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 140px;
+    background: linear-gradient(to top, rgba(26,111,173,0.25), transparent);
+    border-radius: 80% 80% 0 0 / 40px 40px 0 0;
+    pointer-events: none;
+  }
+
+  /* ── LOADING ── */
+  .loading-screen {
+    position: fixed; inset: 0; background: var(--deep);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 200; gap: 20px; transition: opacity 0.4s;
+  }
+  .loading-logo { font-family: 'Righteous', cursive; font-size: 2.5rem; background: linear-gradient(135deg, var(--sky), var(--mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .loading-dots { display: flex; gap: 8px; }
+  .loading-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sky); animation: dotPulse 1.2s ease-in-out infinite; }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; background: var(--mint); }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; background: var(--foam); }
+  @keyframes dotPulse { 0%,100%{transform:scale(0.6);opacity:0.4} 50%{transform:scale(1);opacity:1} }
+
   .container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 20px 16px 80px; }
 
   header { text-align: center; padding: 30px 0 20px; }
-
-  .logo {
-    font-family: 'Righteous', cursive; font-size: 2.8rem;
-    background: linear-gradient(135deg, var(--sky), var(--mint));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    letter-spacing: 2px;
-  }
-
+  .logo { font-family: 'Righteous', cursive; font-size: 2.8rem; background: linear-gradient(135deg, var(--sky), var(--mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 2px; }
   .tagline { color: var(--foam); font-size: 0.85rem; opacity: 0.7; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
 
   .screen { display: none; }
@@ -75,7 +161,6 @@
     border-radius: 24px; padding: 32px 24px; text-align: center;
     backdrop-filter: blur(10px); margin-top: 20px;
   }
-
   .setup-card h2 { font-family: 'Righteous', cursive; font-size: 1.6rem; color: var(--sky); margin-bottom: 8px; }
   .setup-card p { color: var(--foam); opacity: 0.8; margin-bottom: 24px; }
 
@@ -85,25 +170,17 @@
     font-family: 'Nunito', sans-serif; color: var(--white); outline: none;
     transition: border-color 0.3s; margin-bottom: 16px;
   }
-
   input[type="time"] {
     background: rgba(255,255,255,0.08); border: 2px solid rgba(56,182,255,0.3);
     border-radius: 12px; padding: 10px 14px; font-size: 0.95rem;
     font-family: 'Nunito', sans-serif; color: var(--white); outline: none;
     transition: border-color 0.3s; flex: 1;
   }
-
   input[type="text"]::placeholder { color: rgba(168,230,255,0.4); }
   input[type="text"]:focus, input[type="time"]:focus { border-color: var(--sky); }
   input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.5; }
 
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 14px 28px; border-radius: 50px; border: none;
-    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
-    cursor: pointer; transition: all 0.2s;
-  }
-
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; border-radius: 50px; border: none; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
   .btn:active { transform: scale(0.96); }
   .btn-primary { background: linear-gradient(135deg, var(--sky), var(--mint)); color: var(--deep); width: 100%; font-size: 1.1rem; }
   .btn-primary:hover { box-shadow: 0 8px 30px rgba(56,182,255,0.4); transform: translateY(-1px); }
@@ -112,12 +189,7 @@
   .btn-outline:hover { border-color: var(--sky); background: rgba(56,182,255,0.1); }
 
   .goal-picker { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
-  .goal-opt {
-    width: 44px; height: 44px; border-radius: 50%;
-    border: 2px solid rgba(56,182,255,0.3); background: rgba(255,255,255,0.05);
-    color: var(--foam); font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800;
-    cursor: pointer; transition: all 0.2s;
-  }
+  .goal-opt { width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(56,182,255,0.3); background: rgba(255,255,255,0.05); color: var(--foam); font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
   .goal-opt:hover { border-color: var(--sky); color: var(--sky); }
   .goal-opt.active { background: linear-gradient(135deg, var(--sky), var(--mint)); border-color: transparent; color: var(--deep); box-shadow: 0 4px 14px rgba(56,182,255,0.35); }
 
@@ -128,11 +200,7 @@
   .progress-ring-fill.goal-done { stroke: url(#ringGradDone); }
 
   .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-  .month-day {
-    aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center;
-    font-size: 0.6rem; font-weight: 700; color: rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(56,182,255,0.08); transition: all 0.3s;
-  }
+  .month-day { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); border: 1px solid rgba(56,182,255,0.08); transition: all 0.3s; }
   .month-day.filled { background: linear-gradient(135deg, var(--wave), var(--sky)); color: white; border-color: transparent; box-shadow: 0 2px 8px rgba(56,182,255,0.25); }
   .month-day.today { border-color: var(--sky); color: var(--sky); }
   .month-day.today.filled { background: linear-gradient(135deg, var(--mint), #38b6ff); border-color: transparent; color: var(--deep); box-shadow: 0 2px 12px rgba(0,229,195,0.4); }
@@ -145,18 +213,8 @@
   .points-badge { background: linear-gradient(135deg, var(--sun), #ffb347); color: var(--deep); border-radius: 50px; padding: 6px 16px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 4px; }
 
   .drink-section { text-align: center; margin: 10px 0 24px; }
-  .drink-btn {
-    width: 180px; height: 180px; border-radius: 50%; border: none;
-    background: linear-gradient(145deg, var(--wave), var(--sky));
-    cursor: pointer; transition: all 0.3s;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 0 0 0 0 rgba(56,182,255,0.4), 0 20px 60px rgba(26,111,173,0.5);
-    position: relative; overflow: hidden;
-  }
-  .drink-btn::before {
-    content: ''; position: absolute; bottom: -20px; left: -20px; right: -20px; height: 60px;
-    background: rgba(255,255,255,0.15); border-radius: 50%; animation: waveAnim 2s ease-in-out infinite;
-  }
+  .drink-btn { width: 180px; height: 180px; border-radius: 50%; border: none; background: linear-gradient(145deg, var(--wave), var(--sky)); cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 0 0 rgba(56,182,255,0.4), 0 20px 60px rgba(26,111,173,0.5); position: relative; overflow: hidden; }
+  .drink-btn::before { content: ''; position: absolute; bottom: -20px; left: -20px; right: -20px; height: 60px; background: rgba(255,255,255,0.15); border-radius: 50%; animation: waveAnim 2s ease-in-out infinite; }
   @keyframes waveAnim { 0%,100%{transform:translateY(0) scaleX(1)}50%{transform:translateY(-8px) scaleX(1.05)} }
   .drink-btn:hover { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(56,182,255,0.12), 0 20px 60px rgba(26,111,173,0.6); }
   .drink-btn:active { transform: scale(0.95); }
@@ -182,7 +240,6 @@
   .friend-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--ocean), var(--wave)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 2px solid rgba(56,182,255,0.3); flex-shrink: 0; }
   .friend-name { font-weight: 700; font-size: 0.95rem; flex: 1; }
   .friend-pts { font-size: 0.8rem; color: var(--sun); font-weight: 700; }
-  .friend-streak-label { font-size: 0.75rem; color: var(--foam); opacity: 0.6; }
   .empty-friends { text-align: center; padding: 20px; color: var(--foam); opacity: 0.5; font-size: 0.9rem; }
 
   .invite-row { display: flex; gap: 8px; margin-top: 12px; }
@@ -209,8 +266,6 @@
   .nav-btn-icon { font-size: 1.4rem; }
   .nav-btn-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
 
-  .section { margin-bottom: 20px; }
-
   .affirmation-overlay { position: fixed; inset: 0; background: rgba(10,22,40,0.85); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
   .affirmation-overlay.show { opacity: 1; pointer-events: all; }
   .affirmation-card { background: linear-gradient(145deg, var(--ocean), #0a2440); border: 1px solid rgba(56,182,255,0.4); border-radius: 28px; padding: 40px 28px; text-align: center; max-width: 340px; width: 100%; transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
@@ -221,30 +276,31 @@
   .affirmation-text { font-size: 1.3rem; font-weight: 800; line-height: 1.4; color: var(--white); margin-bottom: 8px; }
   .affirmation-sub { font-size: 0.9rem; color: var(--foam); opacity: 0.7; margin-bottom: 28px; }
 
-  .loading-screen { position: fixed; inset: 0; background: var(--deep); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; gap: 20px; transition: opacity 0.4s; }
-  .loading-logo { font-family: 'Righteous', cursive; font-size: 2.5rem; background: linear-gradient(135deg, var(--sky), var(--mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .loading-dots { display: flex; gap: 8px; }
-  .loading-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sky); animation: dotPulse 1.2s ease-in-out infinite; }
-  .loading-dot:nth-child(2) { animation-delay: 0.2s; background: var(--mint); }
-  .loading-dot:nth-child(3) { animation-delay: 0.4s; background: var(--foam); }
-  @keyframes dotPulse { 0%,100%{transform:scale(0.6);opacity:0.4} 50%{transform:scale(1);opacity:1} }
-
   .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); display: inline-block; margin-right: 4px; animation: syncP 2s ease-in-out infinite; }
   @keyframes syncP { 0%,100%{opacity:0.3}50%{opacity:1} }
+  .live-pill { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.3); border-radius: 50px; padding: 3px 10px; font-size: 0.68rem; font-weight: 700; color: var(--mint); letter-spacing: 0.5px; }
 
   #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--wave), var(--sky)); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; z-index: 300; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transition: opacity 0.4s; opacity: 0; pointer-events: none; }
-
   #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
 
   .join-info { background: rgba(56,182,255,0.1); border: 1px solid rgba(56,182,255,0.2); border-radius: 14px; padding: 14px; text-align: center; margin-bottom: 16px; }
   .join-inviter { font-size: 1.1rem; font-weight: 800; color: var(--sky); }
-
-  .live-pill { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.3); border-radius: 50px; padding: 3px 10px; font-size: 0.68rem; font-weight: 700; color: var(--mint); letter-spacing: 0.5px; }
+  .section { margin-bottom: 20px; }
 </style>
 </head>
 <body>
 
-<div class="loading-screen" id="loading-screen">
+<!-- ── SPLASH ── -->
+<div id="splash" onclick="dismissSplash()">
+  <div class="splash-drop">💧</div>
+  <div class="splash-logo">HydroPals</div>
+  <div class="splash-tagline">Welcome to HydroPals. The goal is to stay hydrated with your crew.</div>
+  <div class="splash-tap">Tap to continue</div>
+  <div class="splash-wave"></div>
+</div>
+
+<!-- ── LOADING ── -->
+<div class="loading-screen" id="loading-screen" style="display:none">
   <div class="loading-logo">💧 HydroPals</div>
   <div class="loading-dots">
     <div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div>
@@ -399,7 +455,7 @@
       </div>
       <div class="card section">
         <div class="card-title">📨 Invite a Friend</div>
-        <p style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-bottom:12px">Share your link — they'll appear in your crew the moment they join! Both sides sync automatically. ✅</p>
+        <p style="font-size:0.85rem;color:var(--foam);opacity:0.7;margin-bottom:12px">Share your link and they appear in your crew the moment they join!</p>
         <div class="invite-row">
           <div class="invite-link-box" id="invite-link-display">Generating...</div>
           <button class="btn-copy" id="copy-btn" onclick="copyInviteLink()">Copy</button>
@@ -423,7 +479,7 @@
           <button class="goal-opt" data-val="10" onclick="selectGoal(this)">10</button>
           <button class="goal-opt" data-val="12" onclick="selectGoal(this)">12</button>
         </div>
-        <div style="font-size:0.8rem;color:var(--foam);opacity:0.6;margin-top:8px">Streak counts when you hit your daily goal ✅</div>
+        <div style="font-size:0.8rem;color:var(--foam);opacity:0.6;margin-top:8px">Streak counts when you hit your daily goal</div>
       </div>
 
       <div class="card section">
@@ -448,7 +504,9 @@
           <div style="font-size:0.75rem;color:var(--foam);opacity:0.5;margin-top:8px">Morning · Afternoon · Evening</div>
         </div>
         <div id="notif-status" style="font-size:0.8rem;margin-top:10px;color:var(--mint);display:none"></div>
-        <div style="font-size:0.75rem;color:var(--foam);opacity:0.4;margin-top:10px;line-height:1.5">⚠️ Requires browser to be open. On iPhone: Safari → Share → "Add to Home Screen" for app-like alerts.</div>
+        <div style="font-size:0.75rem;color:var(--foam);opacity:0.4;margin-top:10px;line-height:1.5">
+          Requires browser to be open. On iPhone: Safari → Share → Add to Home Screen for app-like alerts.
+        </div>
       </div>
 
       <div class="card section">
@@ -489,88 +547,153 @@
 
 <script>
 // ═══════════════════════════════════════
+// SPLASH
+// ═══════════════════════════════════════
+function dismissSplash() {
+  const splash = document.getElementById('splash');
+  splash.classList.add('hidden');
+  setTimeout(() => { splash.style.display = 'none'; bootApp(); }, 700);
+}
+
+// ═══════════════════════════════════════
 // SUPABASE
 // ═══════════════════════════════════════
 const SB_URL = 'https://qvjatwzmnikcqobtrxfk.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2amF0d3ptbmlrY3FvYnRyeGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1MzA2MjAsImV4cCI6MjA4NzEwNjYyMH0.E1hdQ3mGzJiPjuG8cZaf8jPmT2nZ0wPKWsiGcFqg-T8';
-const SB_HEADS = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+const SB_H = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 
 async function dbGet(id) {
-  const r = await fetch(`${SB_URL}/rest/v1/users?id=eq.${id}&select=*`, { headers: SB_HEADS });
-  const d = await r.json();
-  return d[0] || null;
+  const r = await fetch(`${SB_URL}/rest/v1/users?id=eq.${id}&select=*`, { headers: SB_H });
+  const d = await r.json(); return d[0] || null;
 }
-
 async function dbSave(row) {
   row.updated_at = new Date().toISOString();
   const r = await fetch(`${SB_URL}/rest/v1/users`, {
     method: 'POST',
-    headers: { ...SB_HEADS, 'Prefer': 'resolution=merge-duplicates,return=representation' },
+    headers: { ...SB_H, 'Prefer': 'resolution=merge-duplicates,return=representation' },
     body: JSON.stringify(row)
   });
   if (!r.ok) throw new Error(await r.text());
 }
-
 async function dbGetMany(ids) {
   if (!ids || !ids.length) return [];
   const q = ids.map(i => `"${i}"`).join(',');
-  const r = await fetch(`${SB_URL}/rest/v1/users?id=in.(${q})&select=id,name,points,streak,daily_goal,drinks`, { headers: SB_HEADS });
+  const r = await fetch(`${SB_URL}/rest/v1/users?id=in.(${q})&select=id,name,points,streak,daily_goal,drinks`, { headers: SB_H });
   return await r.json();
 }
-
 async function dbPatch(id, patch) {
   patch.updated_at = new Date().toISOString();
   await fetch(`${SB_URL}/rest/v1/users?id=eq.${id}`, {
     method: 'PATCH',
-    headers: { ...SB_HEADS, 'Prefer': 'return=minimal' },
+    headers: { ...SB_H, 'Prefer': 'return=minimal' },
     body: JSON.stringify(patch)
   });
 }
 
 // ═══════════════════════════════════════
-// AFFIRMATIONS (40)
+// AFFIRMATIONS (100)
 // ═══════════════════════════════════════
 const AFF = [
-  {e:'💧',t:"You're absolutely crushing it!",s:"Your body is glowing with gratitude."},
-  {e:'🌊',t:"Wave after wave of greatness!",s:"Hydration is your superpower."},
-  {e:'✨',t:"Sparkling from the inside out!",s:"You make drinking water look cool."},
-  {e:'🐳',t:"Big splash energy today!",s:"Ocean-level dedication right here."},
-  {e:'🌿',t:"Growing stronger every sip!",s:"Plants respect you. Deeply."},
-  {e:'🏆',t:"A hydration champion is born!",s:"Future you says: THANK YOU."},
-  {e:'⚡',t:"Electrically hydrated!",s:"You're practically glowing."},
-  {e:'🎯',t:"Bullseye on that H₂O!",s:"Precision hydration. Respect."},
-  {e:'🌟',t:"You absolute STAR!",s:"Even stars need water. Probably."},
-  {e:'🦈',t:"Shark mode: ACTIVATED!",s:"Always moving, always hydrated."},
-  {e:'🍀',t:"Lucky to have you hydrating!",s:"Today just got a whole lot better."},
-  {e:'🚀',t:"To the moon and hydrated!",s:"Your body thanks you for fueling up."},
-  {e:'🌈',t:"Sip sip hooray!",s:"Every drop counts toward greatness."},
-  {e:'🦁',t:"Lion energy. Hydrated edition.",s:"The jungle bows to your discipline."},
-  {e:'🔥',t:"On fire AND hydrated?!",s:"That's the dream. That's YOU."},
-  {e:'🧊',t:"Cool, calm, and hydrated.",s:"Unshakeable. Unstoppable. Wet."},
-  {e:'🌺',t:"Blooming with every sip!",s:"Flowers wish they drank like you."},
-  {e:'🐬',t:"Dolphin vibes all day!",s:"Smart, sleek, and soaking it in."},
-  {e:'💎',t:"Diamond-level hydration!",s:"Rare. Precious. Absolutely iconic."},
-  {e:'🎸',t:"Rocking that water intake!",s:"Your cells are headbanging with joy."},
-  {e:'🧠',t:"Big brain energy activated!",s:"75% water. You're basically genius juice."},
-  {e:'🏄',t:"Riding the hydration wave!",s:"Hang loose and stay watered."},
-  {e:'🦋',t:"Transforming one sip at a time!",s:"Glow up in progress. Drink up."},
-  {e:'🌙',t:"Even the moon pulls tides for you.",s:"Water bends to your will."},
-  {e:'🍉',t:"92% water. Just like you!",s:"You and watermelon are basically twins."},
-  {e:'🐉',t:"Dragon energy, water edition.",s:"Mythically hydrated. Legendary status."},
-  {e:'🎪',t:"The main event: YOU drinking water!",s:"Standing ovation from your kidneys."},
-  {e:'🌍',t:"You're basically Earth.",s:"70% water and absolutely thriving."},
-  {e:'🦅',t:"Soaring on hydration wings!",s:"Eagles don't skip water. Neither do you."},
-  {e:'🎭',t:"Plot twist: you're THRIVING!",s:"The hero always stays hydrated."},
-  {e:'🍋',t:"When life gives you water, drink it!",s:"Zesty, refreshed, unstoppable."},
-  {e:'🏋️',t:"Hydration gains unlocked!",s:"Water is the original performance enhancer."},
-  {e:'🧲',t:"Attracting good vibes and great health!",s:"Hydration magnetism is real."},
-  {e:'🪐',t:"Planetary-level hydration!",s:"Saturn has rings. You have water goals."},
-  {e:'🎨',t:"Painting your health masterpiece!",s:"Every sip is a brushstroke of genius."},
-  {e:'🦄',t:"Mythically hydrated!",s:"Unicorns drink water. Now you know."},
-  {e:'🌤️',t:"Every cloud has a silver lining.",s:"Yours is filled with water. Drink up."},
-  {e:'🧬',t:"DNA-level hydration!",s:"Your cells just sent a thank-you note."},
-  {e:'🌊',t:"You ARE the ocean.",s:"Deep, powerful, wonderfully hydrated."},
-  {e:'🎯',t:"Locked in. Locked on. Hydrated.",s:"Nothing can stop you now."},
+  {e:'💧',t:"You are absolutely glowing right now!",s:"Your body is literally thanking you."},
+  {e:'🌊',t:"Slay AND stay hydrated!",s:"The two are not mutually exclusive."},
+  {e:'✨',t:"That sip just upgraded your skin!",s:"Dewy era, activated."},
+  {e:'🌸',t:"Soft life includes drinking water!",s:"You get it. You really get it."},
+  {e:'💅',t:"Hydrated and unbothered.",s:"The ultimate combo."},
+  {e:'🫧',t:"Bubbling with greatness!",s:"One sip at a time."},
+  {e:'🎀',t:"Cute, hydrated, thriving!",s:"That is your whole vibe right now."},
+  {e:'🌺',t:"You are literally blooming!",s:"Keep watering yourself."},
+  {e:'💕',t:"Self care unlocked!",s:"Drinking water is the main character move."},
+  {e:'🦋',t:"Transformation incoming!",s:"Water is doing the heavy lifting."},
+  {e:'🌈',t:"Pure magic in a glass!",s:"And you drank it. Iconic."},
+  {e:'🍓',t:"Fresh, juicy, and hydrated!",s:"Just like you."},
+  {e:'💫',t:"Your cells are literally celebrating!",s:"Pop pop pop."},
+  {e:'🌻',t:"Sunflower energy activated!",s:"Tall, bright, and well watered."},
+  {e:'🎵',t:"Sip sip hooray!",s:"Today is your day."},
+  {e:'🩷',t:"That was so main character of you!",s:"Hydration is always the plot."},
+  {e:'🫶',t:"Your future self just sent gratitude your way!",s:"They know what you did."},
+  {e:'💦',t:"Absolutely drenched in discipline!",s:"We love to see it."},
+  {e:'🌙',t:"Glowing from the inside out!",s:"Water is your best kept secret."},
+  {e:'⭐',t:"A star who hydrates!",s:"Name a more iconic combo."},
+  {e:'🎉',t:"Pop the confetti!",s:"You just did something great for yourself."},
+  {e:'🍋',t:"Fresh and unstoppable!",s:"That sip was the move."},
+  {e:'🌿',t:"Rooted, grounded, and hydrated!",s:"Nothing can shake you."},
+  {e:'🦩',t:"Graceful and well watered!",s:"Gliding through your goals."},
+  {e:'💎',t:"Rare and hydrated!",s:"A true gem."},
+  {e:'🌷',t:"Powerful and in full bloom!",s:"That sip was everything."},
+  {e:'🫙',t:"Jar full of good choices!",s:"You keep adding to it."},
+  {e:'🍒',t:"Cherry on top? You drank water!",s:"Perfect."},
+  {e:'🦢',t:"Serene and hydrated!",s:"Gliding through your goals effortlessly."},
+  {e:'🎪',t:"The main attraction is YOUR hydration!",s:"Everyone applauds."},
+  {e:'🌊',t:"Fluid, free, and thriving!",s:"The ocean recognises you."},
+  {e:'🩵',t:"Cool, calm, and completely hydrated!",s:"Unshakeable."},
+  {e:'🎶',t:"Your body is singing right now!",s:"Water is the melody."},
+  {e:'🪷',t:"Rising beautifully after every sip!",s:"Lotus coded."},
+  {e:'🍧',t:"You earned a sweet moment!",s:"And you spent it on water. Wise."},
+  {e:'🌬️',t:"Fresh energy only!",s:"You are the vibe."},
+  {e:'🩰',t:"Light on your feet and full of water!",s:"That is the secret."},
+  {e:'🫐',t:"Full of goodness and hydration!",s:"Deep and nourished."},
+  {e:'🎀',t:"A bow on top of a great decision!",s:"That was a cute move."},
+  {e:'💐',t:"You are the bouquet!",s:"Every sip adds a new flower."},
+  {e:'🪸',t:"Vibrant, colorful, and hydrated!",s:"Coral reef energy."},
+  {e:'🧁',t:"Sweet but make it healthy!",s:"Water is the frosting on your day."},
+  {e:'🌸',t:"A beautiful moment made count!",s:"You did it with that sip."},
+  {e:'💖',t:"Heart full, body hydrated!",s:"Balance achieved."},
+  {e:'🎨',t:"Painting the most gorgeous version of yourself!",s:"Water is the brush."},
+  {e:'🫧',t:"Effervescent and electric!",s:"You are literally sparkling."},
+  {e:'🌅',t:"Golden hour energy all day!",s:"Hydration makes everything glow."},
+  {e:'🍑',t:"Peachy and perfect!",s:"That sip sealed it."},
+  {e:'🦄',t:"Mythically hydrated!",s:"Not everyone can say that. You can."},
+  {e:'💌',t:"Your kidneys just sent a thank you note!",s:"They are so grateful."},
+  {e:'🌟',t:"Five stars, no notes!",s:"Your hydration game is immaculate."},
+  {e:'🎯',t:"Nailed it!",s:"Water goal in progress and looking amazing."},
+  {e:'🪄',t:"Manifesting with water!",s:"The universe noticed that sip."},
+  {e:'🌴',t:"Vacation energy, every day!",s:"Hydrated and relaxed."},
+  {e:'🍵',t:"Cozy and hydrated!",s:"The softest combination."},
+  {e:'🩷',t:"That was so kind to your body!",s:"It noticed every drop."},
+  {e:'🦋',t:"One sip closer to your best self!",s:"Wings incoming."},
+  {e:'🌊',t:"Tides are turning in your favor!",s:"All because you drank water."},
+  {e:'🌺',t:"Tropical, vibrant, and hydrated!",s:"Full hibiscus energy."},
+  {e:'🎵',t:"You are the song and water is the beat!",s:"Keep the rhythm going."},
+  {e:'🌙',t:"Moonlit and magical!",s:"You hydrate at every hour. Respect."},
+  {e:'🍓',t:"Berry good decision!",s:"Honestly one of your best today."},
+  {e:'✨',t:"That is just the water working!",s:"Keep letting it."},
+  {e:'🌻',t:"Turning toward the light!",s:"Just like a sunflower, just like you."},
+  {e:'🫶',t:"Water is on your side and so is your crew!",s:"Both are cheering."},
+  {e:'🎀',t:"The prettiest habit anyone can have!",s:"Drinking water is your signature."},
+  {e:'💎',t:"Crystal clear and crystal hydrated!",s:"Sparkling inside and out."},
+  {e:'🌷',t:"In full bloom!",s:"Water is the reason."},
+  {e:'🍋',t:"Zesty approach to health!",s:"Citrus coded and thriving."},
+  {e:'🎉',t:"Party in your cells right now!",s:"Water brought the music."},
+  {e:'🪷',t:"Petals opening, energy flowing!",s:"You are growing beautifully."},
+  {e:'🫙',t:"Bottled up greatness just released!",s:"That was the sip that did it."},
+  {e:'🌬️',t:"Breezy and radiant!",s:"Hydration makes everything lighter."},
+  {e:'🩰',t:"On pointe!",s:"Your wellness routine is elegance itself."},
+  {e:'🫐',t:"Deep, rich, and nourished!",s:"Just like you."},
+  {e:'🌸',t:"Goals rising and energy soaring!",s:"Keep going, you are doing great."},
+  {e:'💕',t:"Full of love and full of water!",s:"The best combination possible."},
+  {e:'🪸',t:"Thriving in your own ecosystem!",s:"Deep, colorful, and alive."},
+  {e:'🧁',t:"Water is the gift that keeps giving!",s:"And you keep accepting it."},
+  {e:'🌅',t:"Every sip is a sunrise moment!",s:"New energy, brand new you."},
+  {e:'🍑',t:"Peachy keen and hydrated!",s:"Could not be more perfect."},
+  {e:'🌟',t:"You are the moment!",s:"Hydrated, present, and glowing."},
+  {e:'🎨',t:"A masterpiece in motion!",s:"Hydration is part of the canvas."},
+  {e:'💌',t:"Sending love to every single cell!",s:"They received it via water."},
+  {e:'🌴',t:"Swaying beautifully through your goals!",s:"Unbothered and hydrated."},
+  {e:'🍵',t:"Warm, nourishing, and intentional!",s:"That sip had real meaning."},
+  {e:'🌊',t:"Every wave starts small!",s:"This sip is yours."},
+  {e:'🦢',t:"Floating through the day effortlessly!",s:"Water makes you weightless."},
+  {e:'🎶',t:"Hydration hits different when you are consistent!",s:"You know the melody now."},
+  {e:'🌺',t:"Rare dedication, rare results!",s:"Not everyone shows up like you do."},
+  {e:'💅',t:"Hydration? Served!",s:"On a silver platter, no less."},
+  {e:'🫧',t:"Fizzing with good energy!",s:"You are practically sparkling."},
+  {e:'🎀',t:"The habit that looks good on everyone!",s:"Drinking water is your move."},
+  {e:'🌙',t:"Even the stars stay hydrated!",s:"You are in great company."},
+  {e:'💖',t:"Overflowing with good energy and hydration!",s:"Both are contagious."},
+  {e:'🌈',t:"Full spectrum of amazing!",s:"Water brings out every color in you."},
+  {e:'🪄',t:"A little magic in every sip!",s:"You are the spell and the spellcaster."},
+  {e:'🍋',t:"Squeezing the most out of every day!",s:"Starting with this sip."},
+  {e:'🌻',t:"Bright, warm, and blooming!",s:"Water is your sunshine."},
+  {e:'💧',t:"Back to basics and absolutely winning!",s:"Water is the original glow up."},
 ];
 
 // ═══════════════════════════════════════
@@ -580,7 +703,7 @@ let APP = null;
 let CREW = [];
 
 const plural = (n, w) => `${n} ${w}${n !== 1 ? 's' : ''}`;
-const todayStr = () => new Date().toISOString().slice(0,10);
+const todayStr = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
 const getLocalId = () => localStorage.getItem('hp_uid');
 const setLocalId = id => localStorage.setItem('hp_uid', id);
 
@@ -611,10 +734,12 @@ function fromRow(r) {
 async function save() { if (APP) await dbSave(toRow(APP)); }
 
 // ═══════════════════════════════════════
-// BOOT
+// BOOT (called after splash dismissed)
 // ═══════════════════════════════════════
-window.addEventListener('load', async () => {
+async function bootApp() {
+  document.getElementById('loading-screen').style.display = 'flex';
   createBubbles();
+
   const params = new URLSearchParams(location.search);
   const invCode = params.get('invite');
   const uid = getLocalId();
@@ -644,10 +769,10 @@ window.addEventListener('load', async () => {
   } catch(e) {
     console.error(e);
     hideLoading();
-    showToast('⚠️ Could not connect to server.');
+    showToast('Could not connect to server. Check your internet.');
     showScreen('setup');
   }
-});
+}
 
 function hideLoading() {
   const el = document.getElementById('loading-screen');
@@ -670,21 +795,13 @@ async function acceptInvite(code) {
   const info = decodeInvite(code);
   if (!info || !APP || info.id === APP.id) return;
   let changed = false;
-
-  // Add them to my friends
   if (!APP.friends.includes(info.id)) { APP.friends.push(info.id); changed = true; }
-
-  // Add me to their friends (mutual)
   const theirRow = await dbGet(info.id);
   if (theirRow) {
     const tf = theirRow.friends || [];
-    if (!tf.includes(APP.id)) {
-      tf.push(APP.id);
-      await dbPatch(info.id, { friends: tf });
-    }
+    if (!tf.includes(APP.id)) { tf.push(APP.id); await dbPatch(info.id, { friends: tf }); }
   }
-
-  if (changed) { await save(); showToast(`🤝 ${info.name} added to your crew!`); }
+  if (changed) { await save(); showToast(`${info.name} added to your crew!`); }
 }
 
 // ═══════════════════════════════════════
@@ -695,19 +812,14 @@ async function setupUser() {
   if (!name) { document.getElementById('setup-name').focus(); return; }
   const btn = document.getElementById('setup-btn');
   btn.disabled = true; btn.textContent = 'Creating...';
-
   const goal = parseInt(document.querySelector('#setup-goal-picker .goal-opt.active')?.dataset.val || '6');
   const id = self.crypto.randomUUID();
-
   APP = { id, name, points: 0, totalDrinks: 0, drinks: {}, streak: 0, bestStreak: 0, dailyGoal: goal, notifTimes: ['09:00','14:00','19:00'], notificationsEnabled: false, friends: [] };
-
   try {
-    await save();
-    setLocalId(id);
-    enterApp();
+    await save(); setLocalId(id); enterApp();
   } catch(e) {
     btn.disabled = false; btn.textContent = '💧 Start Hydrating';
-    showToast('❌ Connection failed. Check internet and try again.');
+    showToast('Connection failed. Check internet and try again.');
   }
 }
 
@@ -716,39 +828,24 @@ async function joinUser() {
   if (!name) { document.getElementById('join-name').focus(); return; }
   const btn = document.getElementById('join-btn');
   btn.disabled = true; btn.textContent = 'Joining...';
-
   const goal = parseInt(document.querySelector('#join-goal-picker .goal-opt.active')?.dataset.val || '6');
   const code = document.getElementById('screen-join').dataset.code;
   const inviterInfo = decodeInvite(code);
-
   const id = self.crypto.randomUUID();
-  APP = {
-    id, name, points: 0, totalDrinks: 0, drinks: {}, streak: 0, bestStreak: 0,
-    dailyGoal: goal, notifTimes: ['09:00','14:00','19:00'], notificationsEnabled: false,
-    friends: inviterInfo ? [inviterInfo.id] : []
-  };
-
+  APP = { id, name, points: 0, totalDrinks: 0, drinks: {}, streak: 0, bestStreak: 0, dailyGoal: goal, notifTimes: ['09:00','14:00','19:00'], notificationsEnabled: false, friends: inviterInfo ? [inviterInfo.id] : [] };
   try {
-    await save();
-    setLocalId(id);
-
-    // Mutually add joiner to inviter's list
+    await save(); setLocalId(id);
     if (inviterInfo) {
       const theirRow = await dbGet(inviterInfo.id);
       if (theirRow) {
         const tf = theirRow.friends || [];
-        if (!tf.includes(id)) {
-          tf.push(id);
-          await dbPatch(inviterInfo.id, { friends: tf });
-        }
+        if (!tf.includes(id)) { tf.push(id); await dbPatch(inviterInfo.id, { friends: tf }); }
       }
     }
-
-    enterApp();
-    showToast(`🎉 Welcome to the crew, ${name}!`);
+    enterApp(); showToast(`Welcome to the crew, ${name}!`);
   } catch(e) {
     btn.disabled = false; btn.textContent = '💧 Join the Crew';
-    showToast('❌ Connection failed. Check internet and try again.');
+    showToast('Connection failed. Check internet and try again.');
   }
 }
 
@@ -759,27 +856,18 @@ function enterApp() {
   showScreen('main');
   document.getElementById('main-nav').style.display = 'flex';
   history.replaceState({}, '', location.pathname);
-  refreshUI();
-  loadCrew();
-  initNotifUI();
-  scheduleNotifications();
-
-  // Poll crew every 20s
+  refreshUI(); loadCrew(); initNotifUI(); scheduleNotifications();
   if (window._crewPoll) clearInterval(window._crewPoll);
   window._crewPoll = setInterval(loadCrew, 20000);
 }
 
 async function loadCrew() {
   if (!APP || !APP.friends.length) { CREW = []; renderCrew(); return; }
-  try {
-    const rows = await dbGetMany(APP.friends);
-    CREW = rows || [];
-    renderCrew();
-  } catch(e) {}
+  try { const rows = await dbGetMany(APP.friends); CREW = rows || []; renderCrew(); } catch(e) {}
 }
 
 // ═══════════════════════════════════════
-// REFRESH UI
+// UI
 // ═══════════════════════════════════════
 function refreshUI() {
   if (!APP) return;
@@ -791,19 +879,16 @@ function refreshUI() {
   document.getElementById('display-name').textContent = APP.name;
   document.getElementById('display-points').textContent = APP.points;
 
-  // Ring
   const ring = document.getElementById('progress-ring-fill');
   ring.style.strokeDashoffset = 527.8 - Math.min(count/goal,1) * 527.8;
   ring.classList.toggle('goal-done', met);
 
-  // Button
   document.getElementById('drink-btn').classList.toggle('goal-met', met);
   document.getElementById('drink-btn-icon').textContent = met ? '✅' : '💧';
   document.getElementById('drink-btn-label').textContent = met ? 'GOAL MET!' : 'LOG DRINK';
   document.getElementById('drink-status').textContent = `${count} / ${goal} glasses today`;
-  document.getElementById('goal-hint').textContent = met ? 'Tap again to log more 💪' : `${goal - count} more to hit your goal!`;
+  document.getElementById('goal-hint').textContent = met ? 'Tap again to log more!' : `${goal - count} more to hit your goal!`;
 
-  // Settings
   const sgv = document.getElementById('settings-goal-val');
   if (sgv) sgv.textContent = goal;
   const snd = document.getElementById('settings-name-display');
@@ -812,24 +897,15 @@ function refreshUI() {
   if (suid) suid.textContent = `ID: ${APP.id.slice(0,8)}...`;
   document.querySelectorAll('#settings-goal-picker .goal-opt').forEach(b => b.classList.toggle('active', parseInt(b.dataset.val) === goal));
 
-  renderMonth();
-  renderWeekChart();
-  renderStats();
-  renderInviteLink();
+  renderMonth(); renderWeekChart(); renderStats(); renderInviteLink();
 }
 
-// ═══════════════════════════════════════
-// MONTH
-// ═══════════════════════════════════════
 function renderMonth() {
-  const now = new Date();
-  const t = todayStr();
-  const goal = APP.dailyGoal || 6;
+  const now = new Date(); const t = todayStr(); const goal = APP.dailyGoal || 6;
   const grid = document.getElementById('month-grid');
   grid.innerHTML = '';
   ['S','M','T','W','T','F','S'].forEach(d => {
-    const h = document.createElement('div');
-    h.className = 'month-day-header'; h.textContent = d; grid.appendChild(h);
+    const h = document.createElement('div'); h.className = 'month-day-header'; h.textContent = d; grid.appendChild(h);
   });
   const first = new Date(now.getFullYear(), now.getMonth(), 1);
   const days = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
@@ -839,8 +915,7 @@ function renderMonth() {
     const c = APP.drinks[ds] || 0;
     const cell = document.createElement('div');
     cell.className = 'month-day' + (c>=goal?' filled':'') + (ds===t?' today':'') + (ds>t?' future':'');
-    cell.textContent = d;
-    cell.title = `${ds}: ${c} glass${c!==1?'es':''}`;
+    cell.textContent = d; cell.title = `${ds}: ${c} glass${c!==1?'es':''}`;
     grid.appendChild(cell);
   }
   const s = calcStreak();
@@ -848,9 +923,7 @@ function renderMonth() {
 }
 
 function calcStreak() {
-  const now = new Date();
-  const goal = APP.dailyGoal || 6;
-  let s = 0;
+  const now = new Date(); const goal = APP.dailyGoal || 6; let s = 0;
   for (let i = 0; i < 365; i++) {
     const d = new Date(now); d.setDate(d.getDate()-i);
     if ((APP.drinks[d.toISOString().slice(0,10)]||0) >= goal) s++;
@@ -859,14 +932,10 @@ function calcStreak() {
   return s;
 }
 
-// ═══════════════════════════════════════
-// WEEK CHART
-// ═══════════════════════════════════════
 function renderWeekChart() {
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const now = new Date(); const t = todayStr();
-  const chart = document.getElementById('week-chart');
-  chart.innerHTML = '';
+  const chart = document.getElementById('week-chart'); chart.innerHTML = '';
   const last7 = [];
   for (let i=6;i>=0;i--) { const d=new Date(now); d.setDate(d.getDate()-i); last7.push(d.toISOString().slice(0,10)); }
   const goal = APP.dailyGoal || 6;
@@ -884,9 +953,6 @@ function renderWeekChart() {
   });
 }
 
-// ═══════════════════════════════════════
-// STATS
-// ═══════════════════════════════════════
 function renderStats() {
   document.getElementById('stat-total-pts').textContent = APP.points;
   document.getElementById('stat-total-drinks').textContent = APP.totalDrinks||0;
@@ -897,26 +963,14 @@ function renderStats() {
   document.getElementById('stat-cur-streak').textContent = plural(cur,'day');
 }
 
-// ═══════════════════════════════════════
-// CREW (live from Supabase)
-// ═══════════════════════════════════════
 function renderCrew() {
   const list = document.getElementById('friends-list');
-  const t = todayStr();
-  const goal = APP.dailyGoal || 6;
-
+  const t = todayStr(); const goal = APP.dailyGoal || 6;
   const me = { name: APP.name+' (you)', points: APP.points, streak: calcStreak(), met: (APP.drinks[t]||0)>=goal, isMe: true };
-  const others = CREW.map(f => ({
-    name: f.name, points: f.points||0, streak: f.streak||0,
-    met: ((f.drinks||{})[t]||0) >= (f.daily_goal||6), isMe: false
-  }));
-
+  const others = CREW.map(f => ({ name: f.name, points: f.points||0, streak: f.streak||0, met: ((f.drinks||{})[t]||0)>=(f.daily_goal||6), isMe: false }));
   const all = [me, ...others].sort((a,b) => b.points - a.points);
 
-  if (all.length <= 1) {
-    list.innerHTML = '<div class="empty-friends">Invite a friend to compete! Share your link below 👇</div>';
-    return;
-  }
+  if (all.length <= 1) { list.innerHTML = '<div class="empty-friends">Invite a friend to compete! Share your link below.</div>'; return; }
 
   list.innerHTML = '';
   const medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
@@ -928,7 +982,7 @@ function renderCrew() {
       <div class="friend-avatar">${medals[i]||'💧'}</div>
       <div style="flex:1">
         <div class="friend-name">${f.name}</div>
-        <div class="friend-streak-label">🔥 ${plural(f.streak,'day')}</div>
+        <div style="font-size:0.75rem;color:var(--foam);opacity:0.6">🔥 ${plural(f.streak,'day')}</div>
       </div>
       <div style="text-align:right">
         <div class="friend-pts">⭐ ${f.points}</div>
@@ -943,22 +997,18 @@ function renderCrew() {
 // ═══════════════════════════════════════
 async function logDrink() {
   if (!APP) return;
-  const t = todayStr();
-  const goal = APP.dailyGoal || 6;
+  const t = todayStr(); const goal = APP.dailyGoal || 6;
   const prev = APP.drinks[t] || 0;
   APP.drinks[t] = prev + 1;
   APP.totalDrinks = (APP.totalDrinks||0) + 1;
   const newC = APP.drinks[t];
   const justMet = newC === goal;
-  const pts = justMet ? 2 : 1;
-  APP.points += pts;
-  const s = calcStreak();
-  APP.streak = s;
-  APP.bestStreak = Math.max(APP.bestStreak||0, s);
+  APP.points += justMet ? 2 : 1;
+  const s = calcStreak(); APP.streak = s; APP.bestStreak = Math.max(APP.bestStreak||0, s);
   refreshUI();
-  save().catch(() => showToast('⚠️ Sync failed'));
+  save().catch(() => showToast('Sync failed'));
   const aff = AFF[Math.floor(Math.random()*AFF.length)];
-  showAff(aff, pts, justMet, newC, goal);
+  showAff(aff, justMet ? 2 : 1, justMet, newC, goal);
   if (justMet || APP.points % 10 === 0) launchConfetti();
 }
 
@@ -966,10 +1016,10 @@ function showAff(aff, pts, justMet, count, goal) {
   const s = calcStreak();
   document.getElementById('aff-emoji').textContent = justMet ? '🏆' : aff.e;
   document.getElementById('aff-points').textContent = `+${pts} point${pts!==1?'s':''}!`;
-  document.getElementById('aff-text').textContent = justMet ? `GOAL SMASHED! ${count}/${goal} glasses! 🎯` : aff.t;
+  document.getElementById('aff-text').textContent = justMet ? `GOAL SMASHED! ${count}/${goal} glasses!` : aff.t;
   document.getElementById('aff-sub').textContent = justMet
-    ? `Streak: 🔥 ${plural(s,'day')} — you're on fire!`
-    : `${count}/${goal} — ${goal-count>0?goal-count+' to go!':'keep it up!'}`;
+    ? `Streak: 🔥 ${plural(s,'day')} and going strong!`
+    : aff.s;
   document.getElementById('affirmation-overlay').classList.add('show');
 }
 
@@ -982,10 +1032,7 @@ function selectGoal(btn) {
   const picker = btn.closest('.goal-picker');
   picker.querySelectorAll('.goal-opt').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  if (picker.id === 'settings-goal-picker' && APP) {
-    APP.dailyGoal = parseInt(btn.dataset.val);
-    save(); refreshUI();
-  }
+  if (picker.id === 'settings-goal-picker' && APP) { APP.dailyGoal = parseInt(btn.dataset.val); save(); refreshUI(); }
 }
 
 // ═══════════════════════════════════════
@@ -1015,8 +1062,7 @@ function copyInviteLink() {
   const link = document.getElementById('invite-link-display').dataset.link;
   navigator.clipboard.writeText(link).then(() => {
     const btn = document.getElementById('copy-btn');
-    btn.textContent = 'Copied! ✅';
-    setTimeout(() => btn.textContent = 'Copy', 2000);
+    btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000);
   });
 }
 
@@ -1031,8 +1077,7 @@ function shareInvite() {
 // ═══════════════════════════════════════
 function initNotifUI() {
   if (!APP) return;
-  const toggle = document.getElementById('notif-toggle');
-  if (!toggle) return;
+  const toggle = document.getElementById('notif-toggle'); if (!toggle) return;
   toggle.checked = APP.notificationsEnabled || false;
   document.getElementById('notif-time-section').style.display = APP.notificationsEnabled ? 'block' : 'none';
   if (APP.notifTimes) {
@@ -1044,7 +1089,7 @@ function initNotifUI() {
   if ('Notification' in window && Notification.permission==='denied') {
     const s = document.getElementById('notif-status');
     s.style.display='block'; s.style.color='var(--coral)';
-    s.textContent='❌ Notifications blocked. Click 🔒 in address bar → Allow.';
+    s.textContent='Notifications blocked. Click the lock icon in your address bar to allow.';
     toggle.checked=false;
   }
 }
@@ -1053,19 +1098,19 @@ async function toggleNotifications(cb) {
   const st = document.getElementById('notif-status');
   const ts = document.getElementById('notif-time-section');
   if (!('Notification' in window)) {
-    st.style.display='block'; st.style.color='var(--coral)'; st.textContent='⚠️ Browser does not support notifications.'; cb.checked=false; return;
+    st.style.display='block'; st.style.color='var(--coral)'; st.textContent='This browser does not support notifications.'; cb.checked=false; return;
   }
   if (cb.checked) {
     let p = Notification.permission;
     if (p==='default') p = await Notification.requestPermission();
     if (p==='granted') {
       APP.notificationsEnabled=true; ts.style.display='block';
-      st.style.display='block'; st.style.color='var(--mint)'; st.textContent='✅ Reminders on!';
-      new Notification('💧 HydroPals', { body: `Hey ${APP.name}! Reminders are now active 🎉` });
+      st.style.display='block'; st.style.color='var(--mint)'; st.textContent='Reminders are on!';
+      new Notification('💧 HydroPals', { body: `Hey ${APP.name}! Your reminders are now active.` });
       saveNotifTimes();
     } else {
       cb.checked=false; APP.notificationsEnabled=false; ts.style.display='none';
-      st.style.display='block'; st.style.color='var(--coral)'; st.textContent='❌ Blocked. Go to site settings in your browser → Allow notifications.';
+      st.style.display='block'; st.style.color='var(--coral)'; st.textContent='Blocked. Go to browser site settings and allow notifications.';
     }
   } else {
     APP.notificationsEnabled=false; ts.style.display='none'; st.style.display='none';
@@ -1089,9 +1134,9 @@ function scheduleNotifications() {
   if (window._nTimers) window._nTimers.forEach(t=>clearTimeout(t));
   window._nTimers=[];
   const msgs=[
-    {title:'💧 Morning!',body:`Good morning ${APP.name}! Start your day with water 🌅`},
-    {title:'💧 Afternoon!',body:`Hey ${APP.name}! Midday water time 🌤️`},
-    {title:'💧 Evening!',body:`Almost there ${APP.name}! Log your evening drink 🌙`},
+    {title:'💧 Morning reminder!',body:`Good morning ${APP.name}! Start your day with water.`},
+    {title:'💧 Afternoon reminder!',body:`Hey ${APP.name}! Time for a midday sip.`},
+    {title:'💧 Evening reminder!',body:`Almost done ${APP.name}! Log your evening drink.`},
   ];
   times.forEach((ts,i)=>{
     if(!ts) return;
@@ -1101,7 +1146,7 @@ function scheduleNotifications() {
     const timer=setTimeout(()=>{
       const c=APP?(APP.drinks[todayStr()]||0):0;
       const g=APP?(APP.dailyGoal||6):6;
-      if(c<g) try{new Notification(msgs[i].title,{body:msgs[i].body+` (${c}/${g} so far)`});}catch(e){}
+      if(c<g) try{ new Notification(msgs[i].title,{body:msgs[i].body+` (${c}/${g} so far)`}); }catch(e){}
       scheduleNotifications();
     }, target-new Date());
     window._nTimers.push(timer);
@@ -1126,11 +1171,10 @@ function launchConfetti() {
   const ctx=canvas.getContext('2d');
   canvas.width=window.innerWidth; canvas.height=window.innerHeight;
   const pieces=Array.from({length:80},()=>({
-    x:Math.random()*canvas.width, y:-10,
-    r:Math.random()*6+4,
-    color:['#38b6ff','#00e5c3','#ffe066','#a8e6ff','#ff6b6b','#7fffea'][Math.floor(Math.random()*6)],
-    tilt:Math.random()*10-5, tiltAngle:0, tiltSpeed:Math.random()*0.1+0.05,
-    vy:Math.random()*3+2, vx:Math.random()*2-1,
+    x:Math.random()*canvas.width,y:-10,r:Math.random()*6+4,
+    color:['#38b6ff','#00e5c3','#ffe066','#a8e6ff','#ff6b6b','#7fffea','#ffb3d9'][Math.floor(Math.random()*7)],
+    tilt:Math.random()*10-5,tiltAngle:0,tiltSpeed:Math.random()*0.1+0.05,
+    vy:Math.random()*3+2,vx:Math.random()*2-1,
   }));
   let frame=0;
   function draw(){
@@ -1159,6 +1203,9 @@ function createBubbles(){
     c.appendChild(b);
   }
 }
+
+// Kick off bubbles immediately so they show on splash too
+createBubbles();
 </script>
 </body>
 </html>
